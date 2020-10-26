@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>docker로 코드짠다?! | Flow@Log</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="
+
+docker hub를 방황하던 도중 이상한걸 봤다. 뭐? docker로 환경을 만들고 그 안에서 개발을 해? 아니 대체 그게 무슨 소리요!
+
+그리고 쭉 찾아보고 나서 오, 이거 좋은데? 라고 생각하게 되어 기록을 남겨놓는다.
+
+예를 들어보자면 그놈의 node-gyp
+
+항상 node-gyp는 골치덩이였다. 뭐 쩔 수 있나. nodejs에서 nativ ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.e79ac67a.css" as="style"><link rel="preload" href="/assets/js/app.fc98795c.js" as="script"><link rel="preload" href="/assets/js/7.58057d45.js" as="script"><link rel="preload" href="/assets/js/3.565abe2e.js" as="script"><link rel="preload" href="/assets/js/6.27d132d6.js" as="script"><link rel="prefetch" href="/assets/js/10.7323fec7.js"><link rel="prefetch" href="/assets/js/11.1e8b6c03.js"><link rel="prefetch" href="/assets/js/12.a69403d3.js"><link rel="prefetch" href="/assets/js/13.4fe35d95.js"><link rel="prefetch" href="/assets/js/14.b5820c13.js"><link rel="prefetch" href="/assets/js/4.5500e215.js"><link rel="prefetch" href="/assets/js/5.63e9952d.js"><link rel="prefetch" href="/assets/js/8.8767b58d.js"><link rel="prefetch" href="/assets/js/9.7b390884.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.5d3d092e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e79ac67a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">Flow@Log </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">Flow@Log </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        docker로 코드짠다?!
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2020-10-23">
+      2020-10-23
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/docker" data-v-42ccfcd5><span data-v-42ccfcd5>docker</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/vscode" data-v-42ccfcd5><span data-v-42ccfcd5>vscode</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="이것이-무엇이오"><a href="#이것이-무엇이오" class="header-anchor">#</a> 이것이 무엇이오?</h2> <p>docker hub를 방황하던 도중 이상한걸 봤다. 뭐? docker로 환경을 만들고 그 안에서 개발을 해? 아니 대체 그게 무슨 소리요!</p> <p>그리고 쭉 찾아보고 나서 오, 이거 좋은데? 라고 생각하게 되어 기록을 남겨놓는다.</p> <h2 id="예를-들어보자면-그놈의-node-gyp"><a href="#예를-들어보자면-그놈의-node-gyp" class="header-anchor">#</a> 예를 들어보자면 그놈의 node-gyp</h2> <p>항상 node-gyp는 골치덩이였다. 뭐 쩔 수 있나. nodejs에서 native로 만들어진 걸 쓰려면 필요하니...</p> <p>그런데 저게 window 쪽에서는 nodejs 버전에 따라 visual studio 버전을 따진다느니 한다는 거다. 그래서 windows build tools 설치 시에 삽을 푸는 경우가 간혹 생긴다.</p> <p>가장 쉬운 해결 방법은 모두가 똑같은 환경을 쓰면 된다. 다 똑같이 os를 사용하고 똑같이 인스톨하면 될거 아닌가?</p> <p>이걸 vscode의 remote container가 해줄 수 있다.</p> <h2 id="맛-좀-보자"><a href="#맛-좀-보자" class="header-anchor">#</a> 맛 좀 보자</h2> <p>어떻게 하나?</p> <ol start="0"><li>당연히 docker는 먼저 깔려있어야한다.</li> <li>vscode <code>확장 ( Extensions )</code> 중에 <code>microsoft</code>가 만든 것들 중에 <code>Remote-Containers</code>가 있다. 그걸 설치한다.</li> <li>vscode에서 f1을 눌러 command palette를 열고 <code>Remote Containers: Try a Sample...</code> 을 선택한다. 그리고 원하는 언어로 선택한다. ( 나는 예시를 위해 node를 골랐다. )</li></ol> <p><img src="/assets/img/001.e176a740.png" alt="이렇게 보인다."></p> <ol start="3"><li>그럼 vscode가 새로 열리더니 뭔가 혼자 쿵짝쿵짝한다.</li></ol> <p>과정이 다 끝났다면 Dev container terminal을 보면 node가 실행 중임이 보인다. 뭘 했나 찾아보니 project root path에 있는 server.js가 실행되었고 내용은 /로 오면 hello world 텍스트를 반환하는 http 서버가 켜진거다. 포트는 3000이고.. 브라우저를 열어서 제대로 되는지 확인해보면 된다.</p> <p>뭐가 잘 안되면 재시작해보거나 하면 된다.</p> <p><img src="/assets/img/002.cc468b92.png" alt="dev container의 안의 내용"></p> <h2 id="오호-나도-하나-만들어보고-싶군"><a href="#오호-나도-하나-만들어보고-싶군" class="header-anchor">#</a> 오호? 나도 하나 만들어보고 싶군!</h2> <p>그럼 뭐 create-react-app으로 뭐 하나 만들고 그걸 devcontainer로 띄워보자.</p> <h3 id="어떻게-이런-짓을-벌이고-있나"><a href="#어떻게-이런-짓을-벌이고-있나" class="header-anchor">#</a> 어떻게 이런 짓을 벌이고 있나?</h3> <p>먼저 새로 띄워진 vscode를 보면 <code>.devcontainer</code> 디렉토리가 있다. 안의 내용을 보면 json 파일과 Dockerfile이 있다.</p> <h4 id="먼저-dockerfile을-보자"><a href="#먼저-dockerfile을-보자" class="header-anchor">#</a> 먼저 Dockerfile을 보자.</h4> <div class="language- extra-class"><pre class="language-text"><code># See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile
+ARG VARIANT=&quot;14&quot;
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update &amp;&amp; export DEBIAN_FRONTEND=noninteractive \
+#     &amp;&amp; apt-get -y install --no-install-recommends &lt;your-package-list-here&gt;
+
+# [Optional] Uncomment if you want to install an additional version of node using nvm
+# ARG EXTRA_NODE_VERSION=10
+# RUN su node -c &quot;source /usr/local/share/nvm/nvm.sh &amp;&amp; nvm install ${EXTRA_NODE_VERSION}&quot;
+
+# [Optional] Uncomment if you want to install more global node modules
+# RUN sudo -u node npm install -g &lt;your-package-list-here&gt;
+</code></pre></div><p>대충 내가 원하는 nodejs 버전을 지정할 수 있고 <a href="https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile" target="_blank" rel="noopener noreferrer">https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 에 있는 내용을 참고하면 될 것 같다는 것을 알 수 있다.</p> <p>실제로 base.Dockerfile을 보면 nodejs 배포 이미지를 사용하고 있다는 걸 볼 수 있다. 그건 ubuntu 기반 이미지이다. 그러고보면 apt-get 쓰고 있다.</p> <p>뭐 대충보니 이 파일을 주물럭대면 우리가 원하는 환경을 추가로 세팅할 수 있다는 것을 알 수 있는 것이다.</p> <h4 id="그-다음-json-파일을-보자"><a href="#그-다음-json-파일을-보자" class="header-anchor">#</a> 그 다음 json 파일을 보자.</h4> <div class="language-json extra-class"><pre class="language-json"><code><span class="token comment">// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:</span>
+<span class="token comment">// https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node</span>
+<span class="token punctuation">{</span>
+	<span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Node.js&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;build&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token property">&quot;dockerfile&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Dockerfile&quot;</span><span class="token punctuation">,</span>
+		<span class="token comment">// Update 'VARIANT' to pick a Node version: 10, 12, 14</span>
+		<span class="token property">&quot;args&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">&quot;VARIANT&quot;</span><span class="token operator">:</span> <span class="token string">&quot;12&quot;</span> <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Set *default* container specific settings.json values on container create.</span>
+	<span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token property">&quot;terminal.integrated.shell.linux&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/bin/bash&quot;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Add the IDs of extensions you want installed when the container is created.</span>
+	<span class="token property">&quot;extensions&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token string">&quot;dbaeumer.vscode-eslint&quot;</span>
+	<span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Use 'forwardPorts' to make a list of ports inside the container available locally.</span>
+	<span class="token property">&quot;forwardPorts&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">3000</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Specifies a command that should be run after the container has been created.</span>
+	<span class="token property">&quot;postCreateCommand&quot;</span><span class="token operator">:</span> <span class="token string">&quot;yarn install&quot;</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Comment out the next line to run as root instead.</span>
+	<span class="token property">&quot;remoteUser&quot;</span><span class="token operator">:</span> <span class="token string">&quot;node&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>방금 봤던 Dockerfile을 사용하고 있으며 버전은 12를 쓴다는 것을 알 수 있다. extensions에는 우리가 주로 사용할 확장을 넣어주면 설치가 될 거 라는걸 알 수 있다. 오? 그렇다면 prettier라던가 등등등 원하는 것을 맘껏 세팅할 수 있을 것이다. forwardPorts에는 container에서 외부로 열려야할 포트 정보를 써주면 된다 라고 써져있으니 적당히 하면 될테고..</p> <p>대충 알겠으니 시작해보자.</p> <h3 id="먼저-만들어졌건-이제-새로-만들건-똑같이-하면-되겠네"><a href="#먼저-만들어졌건-이제-새로-만들건-똑같이-하면-되겠네" class="header-anchor">#</a> 먼저 만들어졌건, 이제 새로 만들건 똑같이 하면 되겠네?</h3> <p>일단 cra로 하나 만들어서 잘 뜨는지까지 확인해보자.</p> <div class="language-sh extra-class"><pre class="language-sh"><code>$ create-react-app devcontainer_craapp --template typescript
+$ <span class="token builtin class-name">cd</span> devcontainer_craapp
+$ <span class="token function">yarn</span> start
+</code></pre></div><p>뭐 당연히 잘 뜰 것이다.</p> <p>그럼 해당 디렉토리에 <code>.devcontainer</code> 디렉토리를 만들고 안에 파일을 만들어주자.</p> <div class="language- extra-class"><pre class="language-text"><code># base.Dockerfile
+ARG VARIANT=14
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}
+
+# Install tslint, typescript. eslint is installed by javascript image
+ARG USERNAME=node
+RUN apt-get update &amp;&amp; export DEBIAN_FRONTEND=noninteractive &amp;&amp; apt-get -y install --no-install-recommends build-essential autoconf automake gcc python
+RUN sudo -u ${USERNAME} npm install -g --unsafe-perm tslint typescript eslint node-sass yarn
+RUN sudo -u ${USERNAME} npm rebuild node-sass
+RUN sudo -u ${USERNAME} yarn global add typescript node-sass create-react-app
+</code></pre></div><p>난 nodejs 14를 쓸란다! 라고 해서 이렇게 했고... yarn을 쓸거고 나머지 등등 필요한 dependency를 추가로 깔았다.</p> <div class="language- extra-class"><pre class="language-text"><code># Dockerfile
+ARG VARIANT=14
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:${VARIANT}
+</code></pre></div><p>이 파일은 뭐 할 게 없다. 중요한건 전부 base에 선언해놨으니..</p> <p><code>devcontainer.json</code> 파일은 다음과 같다.</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+	<span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;my devcontainer cra app&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;build&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token property">&quot;dockerfile&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Dockerfile&quot;</span><span class="token punctuation">,</span>
+		<span class="token comment">// Update 'VARIANT' to pick a Node version: 10, 12, 14</span>
+		<span class="token property">&quot;args&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">&quot;VARIANT&quot;</span><span class="token operator">:</span> <span class="token string">&quot;14&quot;</span> <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Set *default* container specific settings.json values on container create.</span>
+	<span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token property">&quot;terminal.integrated.shell.linux&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/bin/bash&quot;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Add the IDs of extensions you want installed when the container is created.</span>
+	<span class="token property">&quot;extensions&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token string">&quot;dbaeumer.vscode-eslint&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;ms-vscode.vscode-typescript-tslint-plugin&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;steoates.autoimport&quot;</span><span class="token punctuation">,</span> <span class="token comment">// tsx import helper</span>
+    <span class="token string">&quot;coenraads.bracket-pair-colorizer-2&quot;</span><span class="token punctuation">,</span> <span class="token comment">// highlight bracket</span>
+    <span class="token string">&quot;wmaurer.change-case&quot;</span><span class="token punctuation">,</span> <span class="token comment">// change text macro</span>
+    <span class="token string">&quot;mikestead.dotenv&quot;</span><span class="token punctuation">,</span> <span class="token comment">// support dotenv</span>
+    <span class="token string">&quot;editorconfig.editorconfig&quot;</span><span class="token punctuation">,</span> <span class="token comment">// support editorconfig</span>
+    <span class="token string">&quot;mhutchie.git-graph&quot;</span><span class="token punctuation">,</span> <span class="token comment">// show git log graphically</span>
+    <span class="token string">&quot;eamodio.gitlens&quot;</span><span class="token punctuation">,</span> <span class="token comment">// git command helper</span>
+    <span class="token string">&quot;oderwat.indent-rainbow&quot;</span><span class="token punctuation">,</span> <span class="token comment">// highlight indent</span>
+    <span class="token string">&quot;esbenp.prettier-vscode&quot;</span><span class="token punctuation">,</span> <span class="token comment">// code formatter</span>
+    <span class="token string">&quot;ryu1kn.partial-diff&quot;</span><span class="token punctuation">,</span> <span class="token comment">// text diff tool</span>
+    <span class="token string">&quot;syler.sass-indented&quot;</span><span class="token punctuation">,</span> <span class="token comment">// support sass syntax</span>
+    <span class="token string">&quot;mike-co.import-sorter&quot;</span><span class="token punctuation">,</span> <span class="token comment">// ts sort import</span>
+	<span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Use 'forwardPorts' to make a list of ports inside the container available locally.</span>
+	<span class="token property">&quot;forwardPorts&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">3000</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Use 'postCreateCommand' to run commands after the container is created.</span>
+	<span class="token property">&quot;postCreateCommand&quot;</span><span class="token operator">:</span> <span class="token string">&quot;yarn install&quot;</span>
+
+	<span class="token comment">// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.</span>
+	<span class="token comment">// &quot;remoteUser&quot;: &quot;node&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>참고로 extension은 그저 내 취향일뿐이다. 원하는 대로 바꾸면 된다.</p> <p>파일이 다 저장됬으면 해당 프로젝트 디렉토리 ( <code>.devcontainer</code> 디렉토리의 부모 디렉토리 ) 에서 vscode를 열어보자. 그럼 오른쪽 밑에 뭔가 뜬다.</p> <p><img src="/assets/img/003.b31e72e5.png" alt="devcontainer 설정 후 vscode를 열면"></p> <p>그럼 <code>Reopen in container</code> 를 눌러주자. <s>( 사실 이건 그냥 커맨드 팔렛트에서도 찾아서 할 수 있는 내용이다. )</s></p> <p>그리고 나면 아까도 볼 수 있었던 열심히 뭔가 쿵짝쿵짝하는 내용을 볼 수 있다..</p> <p><img src="/assets/img/004.0a1fa9e0.png" alt="devcontainer를 생성 중인 docker"></p> <p>대충 뭐 다 끝나면 bash terminal을 열어 <s>( 이미 zsh가 적용되어 있다. )</s> yarn start를 쳐주고</p> <p><img src="/assets/img/005.e9c640a7.png" alt="대망의 시작"></p> <p>호스트 쪽의 브라우저에서 http://localhost:3000/ 을 열면 짜잔! 하고 보인다. 혹시 의심이 간다면 소스에서 좀 고쳐보자. hmr이 동작하는 것이 보일 것이다.</p> <p>필요가 없어지면 커맨드 팔레트를 열어 <code>Remote: Close</code> 해주고 docker에서 container를 지우면 된다.</p> <h2 id="결말"><a href="#결말" class="header-anchor">#</a> 결말</h2> <p>이로서 개발환경 구성 시에 난 윈도우인데? 난 맥인데? 이런 물음은 필요가 없어졌다. vscode 만세다. 개발환경을 이렇게 docker를 통해 뚝딱 만들어버린다는 것은 상당한 메리트가 있을 것이다.</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#이것이-무엇이오" title="이것이 무엇이오?">이것이 무엇이오?</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#예를-들어보자면-그놈의-node-gyp" title="예를 들어보자면 그놈의 node-gyp">예를 들어보자면 그놈의 node-gyp</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#맛-좀-보자" title="맛 좀 보자">맛 좀 보자</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#오호-나도-하나-만들어보고-싶군" title="오호? 나도 하나 만들어보고 싶군!">오호? 나도 하나 만들어보고 싶군!</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#어떻게-이런-짓을-벌이고-있나" title="어떻게 이런 짓을 벌이고 있나?">어떻게 이런 짓을 벌이고 있나?</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#먼저-만들어졌건-이제-새로-만들건-똑같이-하면-되겠네" title="먼저 만들어졌건, 이제 새로 만들건 똑같이 하면 되겠네?">먼저 만들어졌건, 이제 새로 만들건 똑같이 하면 되겠네?</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#결말" title="결말">결말</a></div></div></div></div> <footer class="footer" data-v-fdbf4940><div class="footer-left-wrap" data-v-fdbf4940><ul class="contact" data-v-fdbf4940><li class="contact-item" data-v-fdbf4940><a href="https://github.com/trazy" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-fdbf4940><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-fdbf4940><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-fdbf4940></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-fdbf4940><ul class="copyright" data-v-fdbf4940><li class="copyright-item" data-v-fdbf4940><a href="/2020/10/23/vscode-remote-container-via-docker/.html#" class="nav-link" data-v-fdbf4940>CC BY-NC-ND | Copyright © 2020 , trazy. All right reserved.</a></li></ul></div></footer></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.fc98795c.js" defer></script><script src="/assets/js/7.58057d45.js" defer></script><script src="/assets/js/3.565abe2e.js" defer></script><script src="/assets/js/6.27d132d6.js" defer></script>
+  </body>
+</html>

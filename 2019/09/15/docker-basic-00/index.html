@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>내가 까먹을까봐 써두는 docker 쌩기초 | Flow@Log</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="
+
+|          |  설계도  | -> | 만들어진거    |
+|----------|---------|----|--------------|
+| OOP      |  class  | -> | instance     |
+| 풀빵가게  | 붕어빵틀 | -> | 붕어빵        |
+| docker   |  image  | -> | container ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.e79ac67a.css" as="style"><link rel="preload" href="/assets/js/app.fc98795c.js" as="script"><link rel="preload" href="/assets/js/7.58057d45.js" as="script"><link rel="preload" href="/assets/js/3.565abe2e.js" as="script"><link rel="preload" href="/assets/js/14.b5820c13.js" as="script"><link rel="prefetch" href="/assets/js/10.7323fec7.js"><link rel="prefetch" href="/assets/js/11.1e8b6c03.js"><link rel="prefetch" href="/assets/js/12.a69403d3.js"><link rel="prefetch" href="/assets/js/13.4fe35d95.js"><link rel="prefetch" href="/assets/js/4.5500e215.js"><link rel="prefetch" href="/assets/js/5.63e9952d.js"><link rel="prefetch" href="/assets/js/6.27d132d6.js"><link rel="prefetch" href="/assets/js/8.8767b58d.js"><link rel="prefetch" href="/assets/js/9.7b390884.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.5d3d092e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e79ac67a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">Flow@Log </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">Flow@Log </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        내가 까먹을까봐 써두는 docker 쌩기초
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2019-09-15">
+      2019-09-15
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/docker" data-v-42ccfcd5><span data-v-42ccfcd5>docker</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="비유하자면"><a href="#비유하자면" class="header-anchor">#</a> 비유하자면..</h2> <table><thead><tr><th></th> <th>설계도</th> <th>-&gt;</th> <th>만들어진거</th></tr></thead> <tbody><tr><td>OOP</td> <td>class</td> <td>-&gt;</td> <td>instance</td></tr> <tr><td>풀빵가게</td> <td>붕어빵틀</td> <td>-&gt;</td> <td>붕어빵</td></tr> <tr><td>docker</td> <td>image</td> <td>-&gt;</td> <td>container</td></tr></tbody></table> <p>이다.</p> <h2 id="mariadb를-한다면"><a href="#mariadb를-한다면" class="header-anchor">#</a> mariadb를 한다면...</h2> <p>일단 실행!</p> <div class="language-sh extra-class"><pre class="language-sh"><code>$ docker run --name maria-db <span class="token punctuation">\</span>
+-p <span class="token number">3306</span>:3306 <span class="token punctuation">\</span>
+-d mariadb <span class="token punctuation">\</span>
+-v /Users/<span class="token punctuation">[</span>username<span class="token punctuation">]</span>/dev/docker/mariadb/data:/var/lib/mysql <span class="token punctuation">\</span>
+-v /Users/<span class="token punctuation">[</span>username<span class="token punctuation">]</span>/dev/docker/mariadb/conf.d:/etc/mysql/conf.d <span class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span><span class="token punctuation">[</span>당신이 원하는 root의 password<span class="token punctuation">]</span> <span class="token punctuation">\</span>
+-character-set-server<span class="token operator">=</span>utf8mb4 <span class="token punctuation">\</span>
+–collation-server<span class="token operator">=</span>utf8mb4_unicode_ci
+</code></pre></div><p>위의 명령을 설명하면 다음과 같다.</p> <ul><li>container의 이름은 maria-db 라고 한다.</li> <li>container의 3306 포트를 host의 3306 포트로 연결한다. ( -p [local port]:[container port] )</li> <li>container를 만들기 위한 image의 이름은 mariadb이다.
+<ul><li>mariadb라는 이름의 image가 없다면 image를 docker hub(maven으로 친다면 뭐 maven central 정도 된다.)를 통해 다운로드받는다. 이는 <code>docker pull mariadb</code> 명령으로 직접 할 수도 있다.</li> <li><code>docker pull</code>을 사용한다면 docker hub에 없는, 네트워크에 위치한 파일이나 github를 통해 바로 다운받을 수도 있다. 그렇게 해서 다운받은 내용은 local에 저장되게 되며, 저장되어 있는한 언제든지 해당 이름을 통해 container로 만들어낼 수 있다.</li> <li>image 이름을 정해주며 가져오라고 시킬때 특정 버전을 지정하지 않았으므로 실행 시점에서의 latest로 지정된 버전을 다운로드받게된다.</li></ul></li> <li>volume지정은 host와 container의 fs를 연결하는 선언이다. ( -v [local path]:[container path] )
+<ul><li>container의 <code>/var/lib/mysql</code> 는 host의 <code>/Users/[username]/dev/docker/mariadb/data</code> 로 연결된다.</li> <li>container의 <code>/etc/mysql/conf.d</code>는 host의 <code>/Users/[username]/dev/docker/mariadb/conf.d</code>로 연결된다.</li></ul></li> <li>그 뒤의 구문은 환경 설정 같은 걸 명시하는 내용이다. 위에선 root의 패스워드를 정하고 character set과 collation을 지정했다.</li></ul> <p>그리고... 대충 뭐.. 기본적인 명령들은 이렇다.</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token comment"># 현재 active한 모든 container의 목록을 표시한다.</span>
+$ docker <span class="token function">ps</span>
+
+<span class="token comment"># 현재 생성된 모든 container의 목록을 표시한다.</span>
+$ docker <span class="token function">ps</span> -a
+
+<span class="token comment"># 연결된 registry에서 image를 다운로드한다.</span>
+$ docker pull <span class="token punctuation">[</span>image name<span class="token punctuation">]</span>:<span class="token punctuation">[</span>버전, 생략시 최신 버전<span class="token punctuation">]</span>
+
+<span class="token comment"># 지정한 컨테이너를 시작한다.</span>
+$ docker start <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 지정한 컨테이너를 재시작한다.</span>
+$ docker restart <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 컨테이너 안의 명령을 실행한다.</span>
+$ docker <span class="token builtin class-name">exec</span> -it <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span> <span class="token punctuation">[</span>명령<span class="token punctuation">]</span>
+
+<span class="token comment"># bash 쉘 열기</span>
+$ docker <span class="token builtin class-name">exec</span> -it <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span> <span class="token function">bash</span>
+
+<span class="token comment"># 컨테이너의 로그를 출력한다.</span>
+$ docker logs <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 마지막 500줄을 출력하면서 바로 끝나지 말고 계속 해서 log를 출력한다. tail 명령 비스므리하다.</span>
+$ docker logs --tail <span class="token number">500</span> -f <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 지정한 컨테이너를 중지한다.</span>
+$ docker stop <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 지정한 컨테이너를 삭제한다.</span>
+$ docker <span class="token function">rm</span> <span class="token punctuation">[</span>container name <span class="token operator">|</span> id<span class="token punctuation">]</span>
+
+<span class="token comment"># 지정한 이미지를 삭제한다.</span>
+$ docker rmi <span class="token punctuation">[</span>image name <span class="token operator">|</span> image hash<span class="token punctuation">]</span>
+</code></pre></div><h2 id="저건-1개씩-하는거고"><a href="#저건-1개씩-하는거고" class="header-anchor">#</a> 저건 1개씩 하는거고...</h2> <p>여러 개의 docker container를 한 세트로 띄울려면 docker-compose를 사용하면 된다.</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3.1'</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">db</span><span class="token punctuation">:</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> maria<span class="token punctuation">-</span>db
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mariadb<span class="token punctuation">:</span>latest
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 3306<span class="token punctuation">:</span><span class="token number">3306</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /Users/<span class="token punctuation">[</span>username<span class="token punctuation">]</span>/dev/docker/mariadb/data<span class="token punctuation">:</span>/var/lib/mysql
+      <span class="token punctuation">-</span> /Users/<span class="token punctuation">[</span>username<span class="token punctuation">]</span>/dev/docker/mariadb/config<span class="token punctuation">:</span>/etc/mysql/conf.d
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>당신이 원하는 root의 password<span class="token punctuation">]</span>
+      <span class="token key atrule">TZ</span><span class="token punctuation">:</span> Asia/Seoul
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">-</span>character<span class="token punctuation">-</span>set<span class="token punctuation">-</span>server=utf8mb4 <span class="token punctuation">-</span>collation<span class="token punctuation">-</span>server=utf8mb4_unicode_ci
+</code></pre></div><p>위의 내용을 <code>docker-compose.yml</code> 파일로 저장하면 된다. services 밑에 다른거 적어주면 추가가 되는거니 적당히 적어주면 된다.</p> <p>그리고 나서 docker-compose.yml 파일이 있는 곳에서 명령을 사용하면 된다.</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token comment"># docker-compose.yml에 선언된 대로 docker container를 생성한다.</span>
+$ docker-compose up <span class="token punctuation">[</span>-f <span class="token variable"><span class="token variable">`</span>docker-compose.yml 경로<span class="token variable">`</span></span><span class="token punctuation">]</span> <span class="token punctuation">[</span>-p 서비스명<span class="token punctuation">]</span> -d <span class="token punctuation">[</span>--force-recreate<span class="token punctuation">]</span>
+
+<span class="token comment"># 시작</span>
+$ docker-compose start
+
+<span class="token comment"># 중지</span>
+$ docker-compose stop
+
+<span class="token comment"># docker-compose.yml에 선언된 대로 생성된 docker container를 삭제한다.</span>
+$ docker-compose down <span class="token punctuation">[</span>--remove-orphans<span class="token punctuation">]</span>
+</code></pre></div><h2 id="그래서-뭐가-좋은데"><a href="#그래서-뭐가-좋은데" class="header-anchor">#</a> 그래서 뭐가 좋은데?</h2> <p>옛날옛날에 이런 일이 있었다. 개발하다가 redis가 필요해졌다. 그런데 난 window 환경이네? redis를 쓰고 싶은데 난 window라 compile할 수 있는게 없어서 virtualbox를 설치해서 리눅스 깔고 하든지 해야되던 시절이 있었다. <s>지금이야 window 버전, 그러니까 visual studio에서 컴파일 가능한 버전이 git에서도 배포 중이다.</s></p> <p>docker가 있다면? 고민이 필요없이 그냥 container 만들어서 띄우면 된다.</p> <p>뭐가 필요해? why not? docker image만 만들 수 있다면, 그리고 존재한다면 바로 ok! 리눅스 설치고 뭐고 걱정할 필요가 없다.</p> <p>이것만으로도 쓸모는 이미 증명되었다고 봐도 된다.</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#비유하자면" title="비유하자면..">비유하자면..</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#mariadb를-한다면" title="mariadb를 한다면...">mariadb를 한다면...</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#저건-1개씩-하는거고" title="저건 1개씩 하는거고...">저건 1개씩 하는거고...</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#그래서-뭐가-좋은데" title="그래서 뭐가 좋은데?">그래서 뭐가 좋은데?</a></div></div></div></div> <footer class="footer" data-v-fdbf4940><div class="footer-left-wrap" data-v-fdbf4940><ul class="contact" data-v-fdbf4940><li class="contact-item" data-v-fdbf4940><a href="https://github.com/trazy" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-fdbf4940><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-fdbf4940><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-fdbf4940></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-fdbf4940><ul class="copyright" data-v-fdbf4940><li class="copyright-item" data-v-fdbf4940><a href="/2019/09/15/docker-basic-00/.html#" class="nav-link" data-v-fdbf4940>CC BY-NC-ND | Copyright © 2020 , trazy. All right reserved.</a></li></ul></div></footer></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.fc98795c.js" defer></script><script src="/assets/js/7.58057d45.js" defer></script><script src="/assets/js/3.565abe2e.js" defer></script><script src="/assets/js/14.b5820c13.js" defer></script>
+  </body>
+</html>
