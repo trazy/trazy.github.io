@@ -139,7 +139,7 @@ RUN sudo -u ${USERNAME} yarn global add typescript node-sass create-react-app
 
 난 nodejs 14를 쓸란다! 라고 해서 이렇게 했고... yarn을 쓸거고 나머지 등등 필요한 dependency를 추가로 깔았다.
 
-```
+```dockerfile
 # Dockerfile
 ARG VARIANT=14
 FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:${VARIANT}
