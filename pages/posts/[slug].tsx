@@ -22,7 +22,7 @@ const reactMarkdownComponents: Partial<Omit<NormalComponents, keyof SpecialCompo
   code({ node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || '');
     return !inline && match ? (
-      <SyntaxHighlighter {...props} style={vscDarkPlus} language={match[1]} PreTag="div" showLineNumbers>
+      <SyntaxHighlighter {...props} style={vscDarkPlus} language={match[1] ?? 'plaintext'} PreTag="div" showLineNumbers>
         {String(children).replace(/\n$/, '')}
       </SyntaxHighlighter>
     ) : (

@@ -49,7 +49,7 @@ docker hub를 방황하던 도중 이상한걸 봤다. 뭐? docker로 환경을 
 
 #### 먼저 Dockerfile을 보자.
 
-```
+```dockerfile
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile
 ARG VARIANT="14"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
@@ -124,7 +124,7 @@ $ yarn start
 
 그럼 해당 디렉토리에 `.devcontainer` 디렉토리를 만들고 안에 파일을 만들어주자.
 
-```
+```dockerfile
 # base.Dockerfile
 ARG VARIANT=14
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}
