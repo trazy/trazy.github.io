@@ -27,6 +27,46 @@ const Footer = ()=>{
 
 /***/ }),
 
+/***/ 7801:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Wi": () => (/* binding */ GoogleAnalytics),
+/* harmony export */   "do": () => (/* binding */ dispatchPageViewEvent)
+/* harmony export */ });
+/* unused harmony export GA_TRACKING_ID */
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+const GA_TRACKING_ID = "G-S3CDH8XL82";
+const dispatchPageViewEvent = (page_path)=>{
+    window.gtag("config", GA_TRACKING_ID, {
+        page_path
+    });
+};
+const GoogleAnalytics = ()=>/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        children: [
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("script", {
+                async: true,
+                src: `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`
+            }),
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("script", {
+                dangerouslySetInnerHTML: {
+                    __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '${GA_TRACKING_ID}');
+`
+                }
+            })
+        ]
+    });
+
+
+/***/ }),
+
 /***/ 6166:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -101,6 +141,8 @@ const Nav = ({ title , description  })=>/*#__PURE__*/ (0,react_jsx_runtime__WEBP
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(968);
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _variables_siteMetadata__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2169);
+/* harmony import */ var _GoogleAnalytics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7801);
+
 
 
 
@@ -158,7 +200,8 @@ const Seo = ({ currentUrl =siteUrl , title =defaultTitle , description =defaultD
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("link", {
                 rel: "icon",
                 href: "/favicon.ico"
-            })
+            }),
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_GoogleAnalytics__WEBPACK_IMPORTED_MODULE_4__/* .GoogleAnalytics */ .Wi, {})
         ]
     });
 };

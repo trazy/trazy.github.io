@@ -1,8 +1,8 @@
 ---
 title: 쓰레드와 비동기 처리
 datetime: '2022-07-15T22:43:00.000+09:00'
-description: 백엔드, 프론트엔드 개발자 초보에게 추천하는 튜토리얼
-tags: ['concurrency']
+description: 비동기를 쓰기 전에 보면 좋을지도?
+tags: ['concurrency', 'async', 'await', 'non-blocking']
 ---
 
 # 최초의 코드
@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-![실행결과1](/20220725-2241xx-thread_vs_async/2022-07-25_225747.png)
+![실행결과1](/assets/20220725-2241xx-thread_vs_async/2022-07-25_225747.png)
 
 - 느려! 느려도 너무 느리다!!!
 - 우린 더 빠르게, 더 많이 실행하고 싶다!!
@@ -67,7 +67,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-![실행결과2](/20220725-2241xx-thread_vs_async/2022-07-25_231013.png)
+![실행결과2](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231013.png)
 
 - 충분히 빨라졌다!
 - 그럼에도 불구하고 1개의 CPU가 과도하게 많은 Thread를 처리하기엔 Context Switching의 Cost는 아직도 비싸다. ( = 해결할 수 없다! )
@@ -75,7 +75,7 @@ fun main(args: Array<String>) {
 
 # Thread-Safe한 자료형으로 쓰레드를 사용한 코드
 
-![실행결과3](/20220725-2241xx-thread_vs_async/2022-07-25_231447.png)
+![실행결과3](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231447.png)
 
 
 - nts non-thread-safe 자료형이 아닌 ts한 자료형으로 정확성을 해결할 수 있었다.
@@ -112,7 +112,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-![실행결과4](/20220725-2241xx-thread_vs_async/2022-07-25_235710.png)
+![실행결과4](/assets/20220725-2241xx-thread_vs_async/2022-07-25_235710.png)
 
 - 동시에 여러 개의 기차가 달릴 수 있는 레일이 4개 뿐이다.
 - 일반적인 어플리케이션에서 설정 상 권장되는 Thread의 갯수는 Logical CPU * 2 이다.
@@ -150,7 +150,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-![실행결과5](/20220725-2241xx-thread_vs_async/2022-07-26_012336.png)
+![실행결과5](/assets/20220725-2241xx-thread_vs_async/2022-07-26_012336.png)
 
 # 빠르네? 왜 빠르지? 코루틴이란? 비동기 실행은?
 
