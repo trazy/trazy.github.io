@@ -58,7 +58,7 @@ const reactMarkdownComponents = {
         return !inline && match ? /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(react_syntax_highlighter__WEBPACK_IMPORTED_MODULE_3__.PrismAsync, {
             ...props,
             style: react_syntax_highlighter_dist_cjs_styles_prism__WEBPACK_IMPORTED_MODULE_4__.vscDarkPlus,
-            language: match[1],
+            language: match[1] ?? "plaintext",
             PreTag: "div",
             showLineNumbers: true,
             children: String(children).replace(/\n$/, "")
