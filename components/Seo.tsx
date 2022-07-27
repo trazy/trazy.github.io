@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Head from 'next/head';
 import { siteMetadata } from '../variables/siteMetadata';
+import { GoogleAnalytics } from './GoogleAnalytics';
 
 export interface SeoProps {
   currentUrl?: string;
@@ -32,6 +33,7 @@ export const Seo: FunctionComponent<SeoProps> = ({
       <meta property="og:locale" content="ko_KR" />
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
+      <GoogleAnalytics />
     </Head>
   );
 };
