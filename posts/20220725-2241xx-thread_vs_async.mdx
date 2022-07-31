@@ -117,6 +117,7 @@ fun main(args: Array<String>) {
 - 동시에 여러 개의 기차가 달릴 수 있는 레일이 4개 뿐이다.
 - 일반적인 어플리케이션에서 설정 상 권장되는 Thread의 갯수는 Logical CPU * 2 이다.
   * 예를 들어 16코어 CPU에서는 32개의 Thread 까지로 제한할 것을 권장하는 어플리케이션이 많다.
+  * OS 모든 resource를 너 혼자 쓸래? 라는 이유도 있을 것이다.
   * 권장 수준을 심각하게 넘어갈 경우 하는 것도 없으면서 더럽게 느리게 동작하는 걸 목격할 수 있다.
 - 1000개의 기차가 각자 완주하기에는 레일이 적으니 시간이 오래 걸릴 수 밖에 없다.
 
@@ -160,26 +161,88 @@ fun main(args: Array<String>) {
   - java에서는 future
   - js/ts에서는 promise
 
-위의 내용을 async 라는 키워드를 통해 해당 함수가 비동기의 방법을 통해 값을 리턴함을 마킹
+위의 내용을 async 라는 키워드를 통해 해당 함수가 내부에서 비동기적인 뭔가를 한다는 것을 마킹해둠
 
-async function은 await 이라는 키워드를 통해 완료된 시점 이후 해야할 일을 명시
+async function은 await 이라는 키워드를 통해 완료된 시점 리턴된 값을 전달함
 
-# 서버 프로그래머들에게 nodejs를 보며 열광하게 만들었던 주역 uvloop
-
-- io 처리에 대한 요청과 그 요청에 대한 완료 감지를 background thread pool을 만들어 관리
-  * 예를 들어 network i/o
-  * 예를 들어 file i/o
-- 이를 사용하는 어플리케이션들은 io 처리 쓰레드를 uvloop에게 넘기고 완료될때 그에 대한 처리만 할 수 있도록 변경됨
-- 하지만 그를 위해 언어 레벨에서, library들이, built-in 으로 비동기 처리를 지원할 방법이 필요함
-  * java에 nio2가 있었음에도 불구하고 남들 다 하는 비동기 처리를 손가락빨며 쳐다볼 수 밖에 없었던 이유
-  * 결국 너무 느린 발전속도로 jboss undertow 같은 WAS가 아닌 물건이 먼저 제시된 이유와 같음
-- uvloop는 V8 엔진의 심장으로 google chrome browser와 nodejs를 모두가 주목할 수 밖에 없게 만든 주역임
-- 그래서 비동기는 결국 공짜로 얻은 마법인가? Nope
-  * spring에서 async하게 돌아간다는 것들은 전부 background thread pool 설정을 필요로 함을 알 수 있음
-    - => uvloop 처럼 io 감지를 다른 백그라운드 쓰레드에게 맡겨놓은 것 뿐임
-  * 그런데 그렇게 만든게 과연 uvloop 만큼 빠를까? ( = 직접 알아보자 )
-
+비동기 작업하는 부분으로 오면 CPU의 사용권을 다른 코드가 실행할 수 있도록 넘겨주고 해당 부분은 처리가 끝날때까지 기다렸다가 끝나면 그때 다시 CPU의 실행권을 쥐고 실행됨
 
 # 그래서 빠르네? 정말 그럴까?
 
-- There is no silver bullet!
+- *There is no silver bullet!*
+- async 안에서 sync를 사용하기 시작하면 어떨까?
+
+```kotlin
+import java.util.concurrent.atomic.AtomicInteger
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+
+fun main(args: Array<String>) {
+    val ctx = Executors.newFixedThreadPool(4).asCoroutineDispatcher()
+    var vault = AtomicInteger(5000)
+    runBlocking {
+        for (i in 0..999) {
+            if (i % 2 == 0) launch(ctx) {
+                Thread.sleep(10)
+                println("Hello this is coroutine $i")
+                vault.addAndGet(200)
+            } else launch(ctx) {
+                Thread.sleep(10)
+                println("Hello this is coroutine $i")
+                vault.addAndGet(-200)
+            }
+        }
+    }
+    ctx.close()
+    println("last vault value is $vault")
+    println("Finished all threads")
+}
+```
+
+![실행결과6](/assets/20220725-2241xx-thread_vs_async/2022-07-31_213534.png)
+
+**쓰레드로 할때랑 별 차이가 없다!?**
+
+- 우리가 그냥 만드는 함수는 대부분 blocking을 하게 된다. 그러면 async의 이점을 아무것도 누릴 수 없게 된다.
+- 우리가 시간이 오래 걸리는, 완료될 시 슬랙으로 알림 보내주도록 만든 코드를 돌려놓고 커피마시러 가는 것이 async의 이점과 완전히 같은 개념이다.
+  - 생각해보자. 시간이 오래 걸리는 코드를 실행해놓고 다 끝날 때까지 기다린 다음에 커피 마시러가면 그것이 효율적인 시간 활용인가?
+
+# 왜 async는 유행했나?
+
+- 예를 들어 API가 1개가 제공되는데 이 1개의 API에 DB를 호출하고 있고 그 쿼리가 1분이 걸린다고 치자.
+- 이 API는 총 8개의 실행 스레드를 가진 웹 서버에서 실행 중이다.
+- 사람이 몰려서 여러 곳에서 마구 API를 요청하기 시작한다.
+- 9번째 요청부터는 8번 먼저 들어온 API의 처리가 끝날 1분이 될때까지 기다려야된다.
+
+## 결과
+
+- 서버의 자원은 남아돈다. CPU 사용률도, RAM도 NETWORK I/O도 최대 대비 20% 근처도 못간다.
+- 더 많은 요청을 수용하려면?
+  - 쓰레드를 더 많이 설정한다. ( PHP나 Python 같은 애들은 process pool을 더 키운다. )
+    - 효율이 나쁘다는게 눈에 보인다. 그러나 어쩔 수 없다.
+  - 쓰레드를 늘리는 것도 한계에 달하면 수평적 확장을 시도한다.
+    - 서버 비용은 어쩔꺼냐?
+
+## 웹 개발자의 절망
+
+- 웹 백엔드 개발자의 대충 절반정도는 1년에서 4년차 사이에 현타를 겪는다.
+  - 아 씁 맨날 DB만 불러대고 별 하는 것도 없네. 우린 DB를 쓰기 위한 중간 인터페이스를 만드는 것 뿐이야. 뭣도 없다고!!
+    - 물론 보통은 그 다음에 DB를 더 잘다루기 위한 지식, 시스템의 구성의 중요성을 깨닫고 그것들을 학습하게 되면서 저 현타를 벋어나게 된다.
+- 어? DB 요청만 줄기차게 해?
+- **어? 뭣도 하는 것도 없는데 async로 io 처리만 따로하게 만들면 더 많은 요청을 수용할 수 있겠네?!**
+
+# 결론
+
+쓰레드로 하면 이렇다.
+
+![실행구조1](/assets/20220725-2241xx-thread_vs_async/drawio.1.png)
+
+하지만 async로 하면 이렇게 바뀐다.
+
+![실행구조2](/assets/20220725-2241xx-thread_vs_async/drawio.2.png)
+
+딱 보기에도 async가 더 빠르지 않은가?
+
+하지만 저걸 단 1개의 쓰레드에서 실행하는 blocking하는 함수들이라 생각해보자.
+
+바로 끔찍한 결론이 느껴진다면 오늘은 여기까지
