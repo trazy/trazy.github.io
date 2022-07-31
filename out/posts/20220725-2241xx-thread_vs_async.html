@@ -4,7 +4,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-S3CDH8XL82');
-</script><meta name="next-head-count" content="14"/><link rel="preload" href="/_next/static/css/dcf3eaa28d2c6455.css" as="style"/><link rel="stylesheet" href="/_next/static/css/dcf3eaa28d2c6455.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-0d1b80a048d4787e.js"></script><script src="/_next/static/chunks/webpack-1938e6a9293457d1.js" defer=""></script><script src="/_next/static/chunks/framework-bb5c596eafb42b22.js" defer=""></script><script src="/_next/static/chunks/main-df853365e3782e3b.js" defer=""></script><script src="/_next/static/chunks/pages/_app-f5332b136cb59f83.js" defer=""></script><script src="/_next/static/chunks/996-c8323b2f96a148d2.js" defer=""></script><script src="/_next/static/chunks/556-c8d990ba88c1d46b.js" defer=""></script><script src="/_next/static/chunks/430-bbeb89331206bd9f.js" defer=""></script><script src="/_next/static/chunks/469-4dbe5474682e7744.js" defer=""></script><script src="/_next/static/chunks/pages/posts/%5Bslug%5D-6cd9dc0b7ada7ac2.js" defer=""></script><script src="/_next/static/lzqqrgsdoJkOt9BxdDE46/_buildManifest.js" defer=""></script><script src="/_next/static/lzqqrgsdoJkOt9BxdDE46/_ssgManifest.js" defer=""></script></head><body><div id="__next" data-reactroot=""><div class="relative w-full min-h-full bg-gray-200"><div class="absolute bg-rose-700 w-full h-80 top-0 left-0"></div><nav class="relative container mx-auto h-20 text-white flex items-center px-4 md:px-36 text-left md:text-center"><div class="flex items-center gap-4"><h1 class="text-3xl cursor-pointer"><a href="/">Flow@Log</a></h1><p class="mt-4 text-sm">끄적끄적</p></div><div class="grow"><ul class="flex justify-end gap-8 uppercase font-extrabold"><li><a href="/">Home</a></li></ul></div></nav><div class="relative container px-32 mx-auto mt-20"><div class="w-full bg-white p-6 drop-shadow-xl"><main class="mt-12 px-12"><article class="max-w-full prose prose-gray"><header><h1 class="text-3xl font-bold">쓰레드와 비동기 처리</h1><p>비동기를 쓰기 전에 보면 좋을지도?</p></header><hr/><div class=""><h1>최초의 코드</h1>
+</script><meta name="next-head-count" content="14"/><link rel="preload" href="/_next/static/css/dcf3eaa28d2c6455.css" as="style"/><link rel="stylesheet" href="/_next/static/css/dcf3eaa28d2c6455.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-0d1b80a048d4787e.js"></script><script src="/_next/static/chunks/webpack-1938e6a9293457d1.js" defer=""></script><script src="/_next/static/chunks/framework-bb5c596eafb42b22.js" defer=""></script><script src="/_next/static/chunks/main-df853365e3782e3b.js" defer=""></script><script src="/_next/static/chunks/pages/_app-f5332b136cb59f83.js" defer=""></script><script src="/_next/static/chunks/996-c8323b2f96a148d2.js" defer=""></script><script src="/_next/static/chunks/556-c8d990ba88c1d46b.js" defer=""></script><script src="/_next/static/chunks/430-bbeb89331206bd9f.js" defer=""></script><script src="/_next/static/chunks/469-4dbe5474682e7744.js" defer=""></script><script src="/_next/static/chunks/pages/posts/%5Bslug%5D-6cd9dc0b7ada7ac2.js" defer=""></script><script src="/_next/static/jayHnim-UBzAX2XejepyT/_buildManifest.js" defer=""></script><script src="/_next/static/jayHnim-UBzAX2XejepyT/_ssgManifest.js" defer=""></script></head><body><div id="__next" data-reactroot=""><div class="relative w-full min-h-full bg-gray-200"><div class="absolute bg-rose-700 w-full h-80 top-0 left-0"></div><nav class="relative container mx-auto h-20 text-white flex items-center px-4 md:px-36 text-left md:text-center"><div class="flex items-center gap-4"><h1 class="text-3xl cursor-pointer"><a href="/">Flow@Log</a></h1><p class="mt-4 text-sm">끄적끄적</p></div><div class="grow"><ul class="flex justify-end gap-8 uppercase font-extrabold"><li><a href="/">Home</a></li></ul></div></nav><div class="relative container px-32 mx-auto mt-20"><div class="w-full bg-white p-6 drop-shadow-xl"><main class="mt-12 px-12"><article class="max-w-full prose prose-gray"><header><h1 class="text-3xl font-bold">쓰레드와 비동기 처리</h1><p>비동기를 쓰기 전에 보면 좋을지도?</p></header><hr/><div class=""><h1>최초의 코드</h1>
 <pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
 </span><span class="react-syntax-highlighter-line-number">2
 </span><span class="react-syntax-highlighter-line-number">3
@@ -168,6 +168,7 @@ fun main(args: Array&lt;String&gt;) {
 <li>일반적인 어플리케이션에서 설정 상 권장되는 Thread의 갯수는 Logical CPU * 2 이다.<!-- -->
 <ul>
 <li>예를 들어 16코어 CPU에서는 32개의 Thread 까지로 제한할 것을 권장하는 어플리케이션이 많다.</li>
+<li>OS 모든 resource를 너 혼자 쓸래? 라는 이유도 있을 것이다.</li>
 <li>권장 수준을 심각하게 넘어갈 경우 하는 것도 없으면서 더럽게 느리게 동작하는 걸 목격할 수 있다.</li>
 </ul>
 </li>
@@ -230,36 +231,116 @@ fun main(args: Array&lt;String&gt;) {
 <li>java에서는 future</li>
 <li>js/ts에서는 promise</li>
 </ul>
-<p>위의 내용을 async 라는 키워드를 통해 해당 함수가 비동기의 방법을 통해 값을 리턴함을 마킹</p>
-<p>async function은 await 이라는 키워드를 통해 완료된 시점 이후 해야할 일을 명시</p>
-<h1>서버 프로그래머들에게 nodejs를 보며 열광하게 만들었던 주역 uvloop</h1>
-<ul>
-<li>io 처리에 대한 요청과 그 요청에 대한 완료 감지를 background thread pool을 만들어 관리<!-- -->
-<ul>
-<li>예를 들어 network i/o</li>
-<li>예를 들어 file i/o</li>
-</ul>
-</li>
-<li>이를 사용하는 어플리케이션들은 io 처리 쓰레드를 uvloop에게 넘기고 완료될때 그에 대한 처리만 할 수 있도록 변경됨</li>
-<li>하지만 그를 위해 언어 레벨에서, library들이, built-in 으로 비동기 처리를 지원할 방법이 필요함<!-- -->
-<ul>
-<li>java에 nio2가 있었음에도 불구하고 남들 다 하는 비동기 처리를 손가락빨며 쳐다볼 수 밖에 없었던 이유</li>
-<li>결국 너무 느린 발전속도로 jboss undertow 같은 WAS가 아닌 물건이 먼저 제시된 이유와 같음</li>
-</ul>
-</li>
-<li>uvloop는 V8 엔진의 심장으로 google chrome browser와 nodejs를 모두가 주목할 수 밖에 없게 만든 주역임</li>
-<li>그래서 비동기는 결국 공짜로 얻은 마법인가? Nope<!-- -->
-<ul>
-<li>spring에서 async하게 돌아간다는 것들은 전부 background thread pool 설정을 필요로 함을 알 수 있음<!-- -->
-<ul>
-<li>=&gt; uvloop 처럼 io 감지를 다른 백그라운드 쓰레드에게 맡겨놓은 것 뿐임</li>
-</ul>
-</li>
-<li>그런데 그렇게 만든게 과연 uvloop 만큼 빠를까? ( = 직접 알아보자 )</li>
-</ul>
-</li>
-</ul>
+<p>위의 내용을 async 라는 키워드를 통해 해당 함수가 내부에서 비동기적인 뭔가를 한다는 것을 마킹해둠</p>
+<p>async function은 await 이라는 키워드를 통해 완료된 시점 리턴된 값을 전달함</p>
+<p>비동기 작업하는 부분으로 오면 CPU의 사용권을 다른 코드가 실행할 수 있도록 넘겨주고 해당 부분은 처리가 끝날때까지 기다렸다가 끝나면 그때 다시 CPU의 실행권을 쥐고 실행됨</p>
 <h1>그래서 빠르네? 정말 그럴까?</h1>
 <ul>
-<li>There is no silver bullet!</li>
-</ul></div></article></main></div></div><footer class="block text-center border-t-2 py-16"><p>© 2012~ trazy. All right reserved.</p></footer></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"slug":"20220725-2241xx-thread_vs_async","content":"\r\n# 최초의 코드\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    var vault = 5000\r\n    for (i in 0..999) {\r\n        println(\"Hello this is thread $i\")\r\n        var next = vault + if (i % 2 == 0) 200 else -200\r\n        Thread.sleep(10);\r\n        vault = next\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과1](/assets/20220725-2241xx-thread_vs_async/2022-07-25_225747.png)\r\n\r\n- 느려! 느려도 너무 느리다!!!\r\n- 우린 더 빠르게, 더 많이 실행하고 싶다!!\r\n\r\n# 다중 프로세스 Multi-Process 의 출현\r\n\r\n- 시분할 Time-Slice 개념 적용 ( = 동시에 여러가지 일이 실행되는 것 처럼 보인다! )\r\n- Daemon 의 사용\r\n- IPC ( Inter Process Communication ) 의 사용\r\n\r\n# 쓰레드를 사용한 코드\r\n\r\n- 처리를 위해 값을 주고받는 경우 IPC 같은 복잡한 짓을 할 필요가 없음 ( = 공유된 메모리 )\r\n- 프로세스에 비해서 Context Switch 를 위해 더 적은 비용이 필요 ( = 빠르다! )\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val executor = Executors.newFixedThreadPool(100)\r\n    var vault = 5000\r\n    for (i in 0..999) {\r\n        val worker = if (i % 2 == 0) Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault += 200\r\n        } else Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault -= 200\r\n        }\r\n        executor.execute(worker)\r\n    }\r\n    executor.shutdown()\r\n    while (!executor.isTerminated) {\r\n        Thread.sleep(100)\r\n        println(\"waiting thread terminating\")\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과2](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231013.png)\r\n\r\n- 충분히 빨라졌다!\r\n- 그럼에도 불구하고 1개의 CPU가 과도하게 많은 Thread를 처리하기엔 Context Switching의 Cost는 아직도 비싸다. ( = 해결할 수 없다! )\r\n- 그런데 결과가 정확하지 않네? ( = Shared Resource의 문제 )\r\n\r\n# Thread-Safe한 자료형으로 쓰레드를 사용한 코드\r\n\r\n![실행결과3](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231447.png)\r\n\r\n\r\n- nts non-thread-safe 자료형이 아닌 ts한 자료형으로 정확성을 해결할 수 있었다.\r\n- 하지만 그래도 문제는 존재한다\r\n\r\n# 언제나 많은 쓰레드를 굴릴 순 없다. 쓰레드가 적다면?\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\nimport java.util.concurrent.atomic.AtomicInteger\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val executor = Executors.newFixedThreadPool(4)\r\n    var vault = AtomicInteger(5000)\r\n    for (i in 0..999) {\r\n        val worker = if (i % 2 == 0) Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault.addAndGet(200)\r\n        } else Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault.addAndGet(-200)\r\n        }\r\n        executor.execute(worker)\r\n    }\r\n    executor.shutdown()\r\n    while (!executor.isTerminated) {\r\n        Thread.sleep(100)\r\n        println(\"waiting thread terminating\")\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과4](/assets/20220725-2241xx-thread_vs_async/2022-07-25_235710.png)\r\n\r\n- 동시에 여러 개의 기차가 달릴 수 있는 레일이 4개 뿐이다.\r\n- 일반적인 어플리케이션에서 설정 상 권장되는 Thread의 갯수는 Logical CPU * 2 이다.\r\n  * 예를 들어 16코어 CPU에서는 32개의 Thread 까지로 제한할 것을 권장하는 어플리케이션이 많다.\r\n  * 권장 수준을 심각하게 넘어갈 경우 하는 것도 없으면서 더럽게 느리게 동작하는 걸 목격할 수 있다.\r\n- 1000개의 기차가 각자 완주하기에는 레일이 적으니 시간이 오래 걸릴 수 밖에 없다.\r\n\r\n\r\n# 코루틴을 사용한다면?\r\n\r\n```kotlin\r\nimport java.util.concurrent.atomic.AtomicInteger\r\nimport kotlinx.coroutines.*\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val ctx = Executors.newFixedThreadPool(4).asCoroutineDispatcher()\r\n    var vault = AtomicInteger(5000)\r\n    runBlocking {\r\n        for (i in 0..999) {\r\n            if (i % 2 == 0) launch(ctx) {\r\n                delay(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(200)\r\n            } else launch(ctx) {\r\n                delay(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(-200)\r\n            }\r\n        }\r\n    }\r\n    ctx.close()\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과5](/assets/20220725-2241xx-thread_vs_async/2022-07-26_012336.png)\r\n\r\n# 빠르네? 왜 빠르지? 코루틴이란? 비동기 실행은?\r\n\r\n원래의 코루틴에서는 일반적으로 yield 키워드를 통해 현재 지점에서 다른 함수의 실행으로 통제권을 넘길 수 있음을 명시\r\n\r\n보통의 언어에서 비동기 처리가 완료될 경우 return 되는 값에 대한 참조에 접근할 방법을 제공\r\n  - java에서는 future\r\n  - js/ts에서는 promise\r\n\r\n위의 내용을 async 라는 키워드를 통해 해당 함수가 비동기의 방법을 통해 값을 리턴함을 마킹\r\n\r\nasync function은 await 이라는 키워드를 통해 완료된 시점 이후 해야할 일을 명시\r\n\r\n# 서버 프로그래머들에게 nodejs를 보며 열광하게 만들었던 주역 uvloop\r\n\r\n- io 처리에 대한 요청과 그 요청에 대한 완료 감지를 background thread pool을 만들어 관리\r\n  * 예를 들어 network i/o\r\n  * 예를 들어 file i/o\r\n- 이를 사용하는 어플리케이션들은 io 처리 쓰레드를 uvloop에게 넘기고 완료될때 그에 대한 처리만 할 수 있도록 변경됨\r\n- 하지만 그를 위해 언어 레벨에서, library들이, built-in 으로 비동기 처리를 지원할 방법이 필요함\r\n  * java에 nio2가 있었음에도 불구하고 남들 다 하는 비동기 처리를 손가락빨며 쳐다볼 수 밖에 없었던 이유\r\n  * 결국 너무 느린 발전속도로 jboss undertow 같은 WAS가 아닌 물건이 먼저 제시된 이유와 같음\r\n- uvloop는 V8 엔진의 심장으로 google chrome browser와 nodejs를 모두가 주목할 수 밖에 없게 만든 주역임\r\n- 그래서 비동기는 결국 공짜로 얻은 마법인가? Nope\r\n  * spring에서 async하게 돌아간다는 것들은 전부 background thread pool 설정을 필요로 함을 알 수 있음\r\n    - =\u003e uvloop 처럼 io 감지를 다른 백그라운드 쓰레드에게 맡겨놓은 것 뿐임\r\n  * 그런데 그렇게 만든게 과연 uvloop 만큼 빠를까? ( = 직접 알아보자 )\r\n\r\n\r\n# 그래서 빠르네? 정말 그럴까?\r\n\r\n- There is no silver bullet!\r\n","frontMatter":{"title":"쓰레드와 비동기 처리","datetime":"2022-07-15T22:43:00.000+09:00","description":"비동기를 쓰기 전에 보면 좋을지도?","tags":["concurrency","async","await","non-blocking"]},"associatedPosts":[],"relatedByTags":[]},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"20220725-2241xx-thread_vs_async"},"buildId":"lzqqrgsdoJkOt9BxdDE46","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
+<li><em>There is no silver bullet!</em></li>
+<li>async 안에서 sync를 사용하기 시작하면 어떨까?</li>
+</ul>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span><span class="react-syntax-highlighter-line-number">19
+</span><span class="react-syntax-highlighter-line-number">20
+</span><span class="react-syntax-highlighter-line-number">21
+</span><span class="react-syntax-highlighter-line-number">22
+</span><span class="react-syntax-highlighter-line-number">23
+</span><span class="react-syntax-highlighter-line-number">24
+</span></code><code class="language-kotlin" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none">import java.util.concurrent.atomic.AtomicInteger
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+
+fun main(args: Array&lt;String&gt;) {
+    val ctx = Executors.newFixedThreadPool(4).asCoroutineDispatcher()
+    var vault = AtomicInteger(5000)
+    runBlocking {
+        for (i in 0..999) {
+            if (i % 2 == 0) launch(ctx) {
+                Thread.sleep(10)
+                println(&quot;Hello this is coroutine $i&quot;)
+                vault.addAndGet(200)
+            } else launch(ctx) {
+                Thread.sleep(10)
+                println(&quot;Hello this is coroutine $i&quot;)
+                vault.addAndGet(-200)
+            }
+        }
+    }
+    ctx.close()
+    println(&quot;last vault value is $vault&quot;)
+    println(&quot;Finished all threads&quot;)
+}</code></div></pre>
+<p><img src="/assets/20220725-2241xx-thread_vs_async/2022-07-31_213534.png" alt="실행결과6"/></p>
+<p><strong>쓰레드로 할때랑 별 차이가 없다!?</strong></p>
+<ul>
+<li>우리가 그냥 만드는 함수는 대부분 blocking을 하게 된다. 그러면 async의 이점을 아무것도 누릴 수 없게 된다.</li>
+<li>우리가 시간이 오래 걸리는, 완료될 시 슬랙으로 알림 보내주도록 만든 코드를 돌려놓고 커피마시러 가는 것이 async의 이점과 완전히 같은 개념이다.<!-- -->
+<ul>
+<li>생각해보자. 시간이 오래 걸리는 코드를 실행해놓고 다 끝날 때까지 기다린 다음에 커피 마시러가면 그것이 효율적인 시간 활용인가?</li>
+</ul>
+</li>
+</ul>
+<h1>왜 async는 유행했나?</h1>
+<ul>
+<li>예를 들어 API가 1개가 제공되는데 이 1개의 API에 DB를 호출하고 있고 그 쿼리가 1분이 걸린다고 치자.</li>
+<li>이 API는 총 8개의 실행 스레드를 가진 웹 서버에서 실행 중이다.</li>
+<li>사람이 몰려서 여러 곳에서 마구 API를 요청하기 시작한다.</li>
+<li>9번째 요청부터는 8번 먼저 들어온 API의 처리가 끝날 1분이 될때까지 기다려야된다.</li>
+</ul>
+<h2>결과</h2>
+<ul>
+<li>서버의 자원은 남아돈다. CPU 사용률도, RAM도 NETWORK I/O도 최대 대비 20% 근처도 못간다.</li>
+<li>더 많은 요청을 수용하려면?<!-- -->
+<ul>
+<li>쓰레드를 더 많이 설정한다. ( PHP나 Python 같은 애들은 process pool을 더 키운다. )<!-- -->
+<ul>
+<li>효율이 나쁘다는게 눈에 보인다. 그러나 어쩔 수 없다.</li>
+</ul>
+</li>
+<li>쓰레드를 늘리는 것도 한계에 달하면 수평적 확장을 시도한다.<!-- -->
+<ul>
+<li>서버 비용은 어쩔꺼냐?</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>웹 개발자의 절망</h2>
+<ul>
+<li>웹 백엔드 개발자의 대충 절반정도는 1년에서 4년차 사이에 현타를 겪는다.<!-- -->
+<ul>
+<li>아 씁 맨날 DB만 불러대고 별 하는 것도 없네. 우린 DB를 쓰기 위한 중간 인터페이스를 만드는 것 뿐이야. 뭣도 없다고!!<!-- -->
+<ul>
+<li>물론 보통은 그 다음에 DB를 더 잘다루기 위한 지식, 시스템의 구성의 중요성을 깨닫고 그것들을 학습하게 되면서 저 현타를 벋어나게 된다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>어? DB 요청만 줄기차게 해?</li>
+<li><strong>어? 뭣도 하는 것도 없는데 async로 io 처리만 따로하게 만들면 더 많은 요청을 수용할 수 있겠네?!</strong></li>
+</ul>
+<h1>결론</h1>
+<p>쓰레드로 하면 이렇다.</p>
+<p><img src="/assets/20220725-2241xx-thread_vs_async/drawio.1.png" alt="실행구조1"/></p>
+<p>하지만 async로 하면 이렇게 바뀐다.</p>
+<p><img src="/assets/20220725-2241xx-thread_vs_async/drawio.2.png" alt="실행구조2"/></p>
+<p>딱 보기에도 async가 더 빠르지 않은가?</p>
+<p>하지만 저걸 단 1개의 쓰레드에서 실행하는 blocking하는 함수들이라 생각해보자.</p>
+<p>바로 끔찍한 결론이 느껴진다면 오늘은 여기까지</p></div></article></main></div></div><footer class="block text-center border-t-2 py-16"><p>© 2012~ trazy. All right reserved.</p></footer></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"slug":"20220725-2241xx-thread_vs_async","content":"\r\n# 최초의 코드\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    var vault = 5000\r\n    for (i in 0..999) {\r\n        println(\"Hello this is thread $i\")\r\n        var next = vault + if (i % 2 == 0) 200 else -200\r\n        Thread.sleep(10);\r\n        vault = next\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과1](/assets/20220725-2241xx-thread_vs_async/2022-07-25_225747.png)\r\n\r\n- 느려! 느려도 너무 느리다!!!\r\n- 우린 더 빠르게, 더 많이 실행하고 싶다!!\r\n\r\n# 다중 프로세스 Multi-Process 의 출현\r\n\r\n- 시분할 Time-Slice 개념 적용 ( = 동시에 여러가지 일이 실행되는 것 처럼 보인다! )\r\n- Daemon 의 사용\r\n- IPC ( Inter Process Communication ) 의 사용\r\n\r\n# 쓰레드를 사용한 코드\r\n\r\n- 처리를 위해 값을 주고받는 경우 IPC 같은 복잡한 짓을 할 필요가 없음 ( = 공유된 메모리 )\r\n- 프로세스에 비해서 Context Switch 를 위해 더 적은 비용이 필요 ( = 빠르다! )\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val executor = Executors.newFixedThreadPool(100)\r\n    var vault = 5000\r\n    for (i in 0..999) {\r\n        val worker = if (i % 2 == 0) Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault += 200\r\n        } else Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault -= 200\r\n        }\r\n        executor.execute(worker)\r\n    }\r\n    executor.shutdown()\r\n    while (!executor.isTerminated) {\r\n        Thread.sleep(100)\r\n        println(\"waiting thread terminating\")\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과2](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231013.png)\r\n\r\n- 충분히 빨라졌다!\r\n- 그럼에도 불구하고 1개의 CPU가 과도하게 많은 Thread를 처리하기엔 Context Switching의 Cost는 아직도 비싸다. ( = 해결할 수 없다! )\r\n- 그런데 결과가 정확하지 않네? ( = Shared Resource의 문제 )\r\n\r\n# Thread-Safe한 자료형으로 쓰레드를 사용한 코드\r\n\r\n![실행결과3](/assets/20220725-2241xx-thread_vs_async/2022-07-25_231447.png)\r\n\r\n\r\n- nts non-thread-safe 자료형이 아닌 ts한 자료형으로 정확성을 해결할 수 있었다.\r\n- 하지만 그래도 문제는 존재한다\r\n\r\n# 언제나 많은 쓰레드를 굴릴 순 없다. 쓰레드가 적다면?\r\n\r\n```kotlin\r\nimport java.util.concurrent.Executors\r\nimport java.util.concurrent.atomic.AtomicInteger\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val executor = Executors.newFixedThreadPool(4)\r\n    var vault = AtomicInteger(5000)\r\n    for (i in 0..999) {\r\n        val worker = if (i % 2 == 0) Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault.addAndGet(200)\r\n        } else Runnable {\r\n            println(\"Hello this is thread $i\")\r\n            Thread.sleep(10)\r\n            vault.addAndGet(-200)\r\n        }\r\n        executor.execute(worker)\r\n    }\r\n    executor.shutdown()\r\n    while (!executor.isTerminated) {\r\n        Thread.sleep(100)\r\n        println(\"waiting thread terminating\")\r\n    }\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과4](/assets/20220725-2241xx-thread_vs_async/2022-07-25_235710.png)\r\n\r\n- 동시에 여러 개의 기차가 달릴 수 있는 레일이 4개 뿐이다.\r\n- 일반적인 어플리케이션에서 설정 상 권장되는 Thread의 갯수는 Logical CPU * 2 이다.\r\n  * 예를 들어 16코어 CPU에서는 32개의 Thread 까지로 제한할 것을 권장하는 어플리케이션이 많다.\r\n  * OS 모든 resource를 너 혼자 쓸래? 라는 이유도 있을 것이다.\r\n  * 권장 수준을 심각하게 넘어갈 경우 하는 것도 없으면서 더럽게 느리게 동작하는 걸 목격할 수 있다.\r\n- 1000개의 기차가 각자 완주하기에는 레일이 적으니 시간이 오래 걸릴 수 밖에 없다.\r\n\r\n\r\n# 코루틴을 사용한다면?\r\n\r\n```kotlin\r\nimport java.util.concurrent.atomic.AtomicInteger\r\nimport kotlinx.coroutines.*\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val ctx = Executors.newFixedThreadPool(4).asCoroutineDispatcher()\r\n    var vault = AtomicInteger(5000)\r\n    runBlocking {\r\n        for (i in 0..999) {\r\n            if (i % 2 == 0) launch(ctx) {\r\n                delay(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(200)\r\n            } else launch(ctx) {\r\n                delay(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(-200)\r\n            }\r\n        }\r\n    }\r\n    ctx.close()\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과5](/assets/20220725-2241xx-thread_vs_async/2022-07-26_012336.png)\r\n\r\n# 빠르네? 왜 빠르지? 코루틴이란? 비동기 실행은?\r\n\r\n원래의 코루틴에서는 일반적으로 yield 키워드를 통해 현재 지점에서 다른 함수의 실행으로 통제권을 넘길 수 있음을 명시\r\n\r\n보통의 언어에서 비동기 처리가 완료될 경우 return 되는 값에 대한 참조에 접근할 방법을 제공\r\n  - java에서는 future\r\n  - js/ts에서는 promise\r\n\r\n위의 내용을 async 라는 키워드를 통해 해당 함수가 내부에서 비동기적인 뭔가를 한다는 것을 마킹해둠\r\n\r\nasync function은 await 이라는 키워드를 통해 완료된 시점 리턴된 값을 전달함\r\n\r\n비동기 작업하는 부분으로 오면 CPU의 사용권을 다른 코드가 실행할 수 있도록 넘겨주고 해당 부분은 처리가 끝날때까지 기다렸다가 끝나면 그때 다시 CPU의 실행권을 쥐고 실행됨\r\n\r\n# 그래서 빠르네? 정말 그럴까?\r\n\r\n- *There is no silver bullet!*\r\n- async 안에서 sync를 사용하기 시작하면 어떨까?\r\n\r\n```kotlin\r\nimport java.util.concurrent.atomic.AtomicInteger\r\nimport kotlinx.coroutines.*\r\nimport java.util.concurrent.Executors\r\n\r\nfun main(args: Array\u003cString\u003e) {\r\n    val ctx = Executors.newFixedThreadPool(4).asCoroutineDispatcher()\r\n    var vault = AtomicInteger(5000)\r\n    runBlocking {\r\n        for (i in 0..999) {\r\n            if (i % 2 == 0) launch(ctx) {\r\n                Thread.sleep(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(200)\r\n            } else launch(ctx) {\r\n                Thread.sleep(10)\r\n                println(\"Hello this is coroutine $i\")\r\n                vault.addAndGet(-200)\r\n            }\r\n        }\r\n    }\r\n    ctx.close()\r\n    println(\"last vault value is $vault\")\r\n    println(\"Finished all threads\")\r\n}\r\n```\r\n\r\n![실행결과6](/assets/20220725-2241xx-thread_vs_async/2022-07-31_213534.png)\r\n\r\n**쓰레드로 할때랑 별 차이가 없다!?**\r\n\r\n- 우리가 그냥 만드는 함수는 대부분 blocking을 하게 된다. 그러면 async의 이점을 아무것도 누릴 수 없게 된다.\r\n- 우리가 시간이 오래 걸리는, 완료될 시 슬랙으로 알림 보내주도록 만든 코드를 돌려놓고 커피마시러 가는 것이 async의 이점과 완전히 같은 개념이다.\r\n  - 생각해보자. 시간이 오래 걸리는 코드를 실행해놓고 다 끝날 때까지 기다린 다음에 커피 마시러가면 그것이 효율적인 시간 활용인가?\r\n\r\n# 왜 async는 유행했나?\r\n\r\n- 예를 들어 API가 1개가 제공되는데 이 1개의 API에 DB를 호출하고 있고 그 쿼리가 1분이 걸린다고 치자.\r\n- 이 API는 총 8개의 실행 스레드를 가진 웹 서버에서 실행 중이다.\r\n- 사람이 몰려서 여러 곳에서 마구 API를 요청하기 시작한다.\r\n- 9번째 요청부터는 8번 먼저 들어온 API의 처리가 끝날 1분이 될때까지 기다려야된다.\r\n\r\n## 결과\r\n\r\n- 서버의 자원은 남아돈다. CPU 사용률도, RAM도 NETWORK I/O도 최대 대비 20% 근처도 못간다.\r\n- 더 많은 요청을 수용하려면?\r\n  - 쓰레드를 더 많이 설정한다. ( PHP나 Python 같은 애들은 process pool을 더 키운다. )\r\n    - 효율이 나쁘다는게 눈에 보인다. 그러나 어쩔 수 없다.\r\n  - 쓰레드를 늘리는 것도 한계에 달하면 수평적 확장을 시도한다.\r\n    - 서버 비용은 어쩔꺼냐?\r\n\r\n## 웹 개발자의 절망\r\n\r\n- 웹 백엔드 개발자의 대충 절반정도는 1년에서 4년차 사이에 현타를 겪는다.\r\n  - 아 씁 맨날 DB만 불러대고 별 하는 것도 없네. 우린 DB를 쓰기 위한 중간 인터페이스를 만드는 것 뿐이야. 뭣도 없다고!!\r\n    - 물론 보통은 그 다음에 DB를 더 잘다루기 위한 지식, 시스템의 구성의 중요성을 깨닫고 그것들을 학습하게 되면서 저 현타를 벋어나게 된다.\r\n- 어? DB 요청만 줄기차게 해?\r\n- **어? 뭣도 하는 것도 없는데 async로 io 처리만 따로하게 만들면 더 많은 요청을 수용할 수 있겠네?!**\r\n\r\n# 결론\r\n\r\n쓰레드로 하면 이렇다.\r\n\r\n![실행구조1](/assets/20220725-2241xx-thread_vs_async/drawio.1.png)\r\n\r\n하지만 async로 하면 이렇게 바뀐다.\r\n\r\n![실행구조2](/assets/20220725-2241xx-thread_vs_async/drawio.2.png)\r\n\r\n딱 보기에도 async가 더 빠르지 않은가?\r\n\r\n하지만 저걸 단 1개의 쓰레드에서 실행하는 blocking하는 함수들이라 생각해보자.\r\n\r\n바로 끔찍한 결론이 느껴진다면 오늘은 여기까지\r\n","frontMatter":{"title":"쓰레드와 비동기 처리","datetime":"2022-07-15T22:43:00.000+09:00","description":"비동기를 쓰기 전에 보면 좋을지도?","tags":["concurrency","async","await","non-blocking"]},"associatedPosts":[],"relatedByTags":[]},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"20220725-2241xx-thread_vs_async"},"buildId":"jayHnim-UBzAX2XejepyT","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>

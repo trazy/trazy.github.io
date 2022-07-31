@@ -1,0 +1,256 @@
+<!DOCTYPE html><html><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="description" content="vscode와 docker의 하모니"/><meta name="keywords" content="docker, vscode"/><meta name="author" content="trazy"/><meta property="og:type" content="blog"/><meta property="og:url" content="https://trazy.github.io/posts/20201023-xxxxxx-vscode-remote-container-via-docker"/><meta property="og:title" content="docker로 코드짠다?!"/><meta property="og:description" content="vscode와 docker의 하모니"/><meta property="og:site_name" content="Flow@Log"/><meta property="og:locale" content="ko_KR"/><title>docker로 코드짠다?!</title><link rel="icon" href="/favicon.ico"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-S3CDH8XL82"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S3CDH8XL82');
+</script><meta name="next-head-count" content="14"/><link rel="preload" href="/_next/static/css/dcf3eaa28d2c6455.css" as="style"/><link rel="stylesheet" href="/_next/static/css/dcf3eaa28d2c6455.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-0d1b80a048d4787e.js"></script><script src="/_next/static/chunks/webpack-1938e6a9293457d1.js" defer=""></script><script src="/_next/static/chunks/framework-bb5c596eafb42b22.js" defer=""></script><script src="/_next/static/chunks/main-df853365e3782e3b.js" defer=""></script><script src="/_next/static/chunks/pages/_app-f5332b136cb59f83.js" defer=""></script><script src="/_next/static/chunks/996-c8323b2f96a148d2.js" defer=""></script><script src="/_next/static/chunks/556-c8d990ba88c1d46b.js" defer=""></script><script src="/_next/static/chunks/430-bbeb89331206bd9f.js" defer=""></script><script src="/_next/static/chunks/469-4dbe5474682e7744.js" defer=""></script><script src="/_next/static/chunks/pages/posts/%5Bslug%5D-6cd9dc0b7ada7ac2.js" defer=""></script><script src="/_next/static/jayHnim-UBzAX2XejepyT/_buildManifest.js" defer=""></script><script src="/_next/static/jayHnim-UBzAX2XejepyT/_ssgManifest.js" defer=""></script></head><body><div id="__next" data-reactroot=""><div class="relative w-full min-h-full bg-gray-200"><div class="absolute bg-rose-700 w-full h-80 top-0 left-0"></div><nav class="relative container mx-auto h-20 text-white flex items-center px-4 md:px-36 text-left md:text-center"><div class="flex items-center gap-4"><h1 class="text-3xl cursor-pointer"><a href="/">Flow@Log</a></h1><p class="mt-4 text-sm">끄적끄적</p></div><div class="grow"><ul class="flex justify-end gap-8 uppercase font-extrabold"><li><a href="/">Home</a></li></ul></div></nav><div class="relative container px-32 mx-auto mt-20"><div class="w-full bg-white p-6 drop-shadow-xl"><main class="mt-12 px-12"><article class="max-w-full prose prose-gray"><header><h1 class="text-3xl font-bold">docker로 코드짠다?!</h1><p>vscode와 docker의 하모니</p></header><hr/><div class=""><h2>이것이 무엇이오?</h2>
+<p>docker hub를 방황하던 도중 이상한걸 봤다. 뭐? docker로 환경을 만들고 그 안에서 개발을 해? 아니 대체 그게 무슨 소리요!</p>
+<p>그리고 쭉 찾아보고 나서 오, 이거 좋은데? 라고 생각하게 되어 기록을 남겨놓는다.</p>
+<h2>예를 들어보자면 그놈의 node-gyp</h2>
+<p>항상 node-gyp는 골치덩이였다. 뭐 쩔 수 있나. nodejs에서 native로 만들어진 걸 쓰려면 필요하니...</p>
+<p>그런데 저게 window 쪽에서는 nodejs 버전에 따라 visual studio 버전을 따진다느니 한다는 거다. 그래서 windows build tools 설치 시에 삽을 푸는 경우가 간혹 생긴다.</p>
+<p>가장 쉬운 해결 방법은 모두가 똑같은 환경을 쓰면 된다. 다 똑같이 os를 사용하고 똑같이 인스톨하면 될거 아닌가?</p>
+<p>이걸 vscode의 remote container가 해줄 수 있다.</p>
+<h2>맛 좀 보자</h2>
+<p>어떻게 하나?</p>
+<ol start="0">
+<li>당연히 docker는 먼저 깔려있어야한다.</li>
+<li>vscode <code>확장 ( Extensions )</code> 중에 <code>microsoft</code>가 만든 것들 중에 <code>Remote-Containers</code>가 있다. 그걸 설치한다.</li>
+<li>vscode에서 f1을 눌러 command palette를 열고 <code>Remote Containers: Try a Sample...</code> 을 선택한다. 그리고 원하는 언어로 선택한다. ( 나는 예시를 위해 node를 골랐다. )</li>
+</ol>
+<p><img src="/assets/20201023-xxxxxx-vscode-remote-container-via-docker/001.png" alt="이렇게 보인다."/></p>
+<ol start="3">
+<li>그럼 vscode가 새로 열리더니 뭔가 혼자 쿵짝쿵짝한다.</li>
+</ol>
+<p>과정이 다 끝났다면 Dev container terminal을 보면 node가 실행 중임이 보인다. 뭘 했나 찾아보니 project root path에 있는 server.js가 실행되었고 내용은 /로 오면 hello world 텍스트를 반환하는 http 서버가 켜진거다. 포트는 3000이고.. 브라우저를 열어서 제대로 되는지 확인해보면 된다.</p>
+<p>뭐가 잘 안되면 재시작해보거나 하면 된다.</p>
+<p><img src="/assets/20201023-xxxxxx-vscode-remote-container-via-docker/002.png" alt="dev container의 안의 내용"/></p>
+<h2>오호? 나도 하나 만들어보고 싶군!</h2>
+<p>그럼 뭐 create-react-app으로 뭐 하나 만들고 그걸 devcontainer로 띄워보자.</p>
+<h3>어떻게 이런 짓을 벌이고 있나?</h3>
+<p>먼저 새로 띄워진 vscode를 보면 <code>.devcontainer</code> 디렉토리가 있다. 안의 내용을 보면 json 파일과 Dockerfile이 있다.</p>
+<h4>먼저 Dockerfile을 보자.</h4>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span></code><code class="language-dockerfile" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"># See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile
+ARG VARIANT=&quot;14&quot;
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update &amp;&amp; export DEBIAN_FRONTEND=noninteractive \
+#     &amp;&amp; apt-get -y install --no-install-recommends &lt;your-package-list-here&gt;
+
+# [Optional] Uncomment if you want to install an additional version of node using nvm
+# ARG EXTRA_NODE_VERSION=10
+# RUN su node -c &quot;source /usr/local/share/nvm/nvm.sh &amp;&amp; nvm install ${EXTRA_NODE_VERSION}&quot;
+
+# [Optional] Uncomment if you want to install more global node modules
+# RUN sudo -u node npm install -g &lt;your-package-list-here&gt;</code></div></pre>
+<p>대충 내가 원하는 nodejs 버전을 지정할 수 있고 <a href="https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile">https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile</a> 에 있는 내용을 참고하면 될 것 같다는 것을 알 수 있다.</p>
+<p>실제로 base.Dockerfile을 보면 nodejs 배포 이미지를 사용하고 있다는 걸 볼 수 있다. 그건 ubuntu 기반 이미지이다. 그러고보면 apt-get 쓰고 있다.</p>
+<p>뭐 대충보니 이 파일을 주물럭대면 우리가 원하는 환경을 추가로 세팅할 수 있다는 것을 알 수 있는 것이다.</p>
+<h4>그 다음 json 파일을 보자.</h4>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span><span class="react-syntax-highlighter-line-number">19
+</span><span class="react-syntax-highlighter-line-number">20
+</span><span class="react-syntax-highlighter-line-number">21
+</span><span class="react-syntax-highlighter-line-number">22
+</span><span class="react-syntax-highlighter-line-number">23
+</span><span class="react-syntax-highlighter-line-number">24
+</span><span class="react-syntax-highlighter-line-number">25
+</span><span class="react-syntax-highlighter-line-number">26
+</span><span class="react-syntax-highlighter-line-number">27
+</span><span class="react-syntax-highlighter-line-number">28
+</span><span class="react-syntax-highlighter-line-number">29
+</span></code><code class="language-json" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none">// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file&#x27;s README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node
+{
+	&quot;name&quot;: &quot;Node.js&quot;,
+	&quot;build&quot;: {
+		&quot;dockerfile&quot;: &quot;Dockerfile&quot;,
+		// Update &#x27;VARIANT&#x27; to pick a Node version: 10, 12, 14
+		&quot;args&quot;: { &quot;VARIANT&quot;: &quot;12&quot; }
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	&quot;settings&quot;: {
+		&quot;terminal.integrated.shell.linux&quot;: &quot;/bin/bash&quot;
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	&quot;extensions&quot;: [
+		&quot;dbaeumer.vscode-eslint&quot;
+	],
+
+	// Use &#x27;forwardPorts&#x27; to make a list of ports inside the container available locally.
+	&quot;forwardPorts&quot;: [3000],
+
+	// Specifies a command that should be run after the container has been created.
+	&quot;postCreateCommand&quot;: &quot;yarn install&quot;,
+
+	// Comment out the next line to run as root instead.
+	&quot;remoteUser&quot;: &quot;node&quot;
+}</code></div></pre>
+<p>방금 봤던 Dockerfile을 사용하고 있으며 버전은 12를 쓴다는 것을 알 수 있다. extensions에는 우리가 주로 사용할 확장을 넣어주면 설치가 될 거 라는걸 알 수 있다. 오? 그렇다면 prettier라던가 등등등 원하는 것을 맘껏 세팅할 수 있을 것이다. forwardPorts에는 container에서 외부로 열려야할 포트 정보를 써주면 된다 라고 써져있으니 적당히 하면 될테고..</p>
+<p>대충 알겠으니 시작해보자.</p>
+<h3>먼저 만들어졌건, 이제 새로 만들건 똑같이 하면 되겠네?</h3>
+<p>일단 cra로 하나 만들어서 잘 뜨는지까지 확인해보자.</p>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span></code><code class="language-sh" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none">$ create-react-app devcontainer_craapp --template typescript
+$ cd devcontainer_craapp
+$ yarn start</code></div></pre>
+<p>뭐 당연히 잘 뜰 것이다.</p>
+<p>그럼 해당 디렉토리에 <code>.devcontainer</code> 디렉토리를 만들고 안에 파일을 만들어주자.</p>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span></code><code class="language-dockerfile" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"># base.Dockerfile
+ARG VARIANT=14
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}
+
+# Install tslint, typescript. eslint is installed by javascript image
+ARG USERNAME=node
+RUN apt-get update &amp;&amp; export DEBIAN_FRONTEND=noninteractive &amp;&amp; apt-get -y install --no-install-recommends build-essential autoconf automake gcc python
+RUN sudo -u ${USERNAME} npm install -g --unsafe-perm tslint typescript eslint node-sass yarn
+RUN sudo -u ${USERNAME} npm rebuild node-sass
+RUN sudo -u ${USERNAME} yarn global add typescript node-sass create-react-app</code></div></pre>
+<p>난 nodejs 14를 쓸란다! 라고 해서 이렇게 했고... yarn을 쓸거고 나머지 등등 필요한 dependency를 추가로 깔았다.</p>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span></code><code class="language-dockerfile" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"># Dockerfile
+ARG VARIANT=14
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:${VARIANT}</code></div></pre>
+<p>이 파일은 뭐 할 게 없다. 중요한건 전부 base에 선언해놨으니..</p>
+<p><code>devcontainer.json</code> 파일은 다음과 같다.</p>
+<pre><div style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;background:#1e1e1e"><code style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;float:left;padding-right:10px"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span><span class="react-syntax-highlighter-line-number">19
+</span><span class="react-syntax-highlighter-line-number">20
+</span><span class="react-syntax-highlighter-line-number">21
+</span><span class="react-syntax-highlighter-line-number">22
+</span><span class="react-syntax-highlighter-line-number">23
+</span><span class="react-syntax-highlighter-line-number">24
+</span><span class="react-syntax-highlighter-line-number">25
+</span><span class="react-syntax-highlighter-line-number">26
+</span><span class="react-syntax-highlighter-line-number">27
+</span><span class="react-syntax-highlighter-line-number">28
+</span><span class="react-syntax-highlighter-line-number">29
+</span><span class="react-syntax-highlighter-line-number">30
+</span><span class="react-syntax-highlighter-line-number">31
+</span><span class="react-syntax-highlighter-line-number">32
+</span><span class="react-syntax-highlighter-line-number">33
+</span><span class="react-syntax-highlighter-line-number">34
+</span><span class="react-syntax-highlighter-line-number">35
+</span><span class="react-syntax-highlighter-line-number">36
+</span><span class="react-syntax-highlighter-line-number">37
+</span><span class="react-syntax-highlighter-line-number">38
+</span><span class="react-syntax-highlighter-line-number">39
+</span><span class="react-syntax-highlighter-line-number">40
+</span></code><code class="language-json" style="color:#d4d4d4;font-size:13px;text-shadow:none;font-family:Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none">{
+	&quot;name&quot;: &quot;my devcontainer cra app&quot;,
+	&quot;build&quot;: {
+		&quot;dockerfile&quot;: &quot;Dockerfile&quot;,
+		// Update &#x27;VARIANT&#x27; to pick a Node version: 10, 12, 14
+		&quot;args&quot;: { &quot;VARIANT&quot;: &quot;14&quot; }
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	&quot;settings&quot;: {
+		&quot;terminal.integrated.shell.linux&quot;: &quot;/bin/bash&quot;
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	&quot;extensions&quot;: [
+		&quot;dbaeumer.vscode-eslint&quot;,
+    &quot;ms-vscode.vscode-typescript-tslint-plugin&quot;,
+    &quot;steoates.autoimport&quot;, // tsx import helper
+    &quot;coenraads.bracket-pair-colorizer-2&quot;, // highlight bracket
+    &quot;wmaurer.change-case&quot;, // change text macro
+    &quot;mikestead.dotenv&quot;, // support dotenv
+    &quot;editorconfig.editorconfig&quot;, // support editorconfig
+    &quot;mhutchie.git-graph&quot;, // show git log graphically
+    &quot;eamodio.gitlens&quot;, // git command helper
+    &quot;oderwat.indent-rainbow&quot;, // highlight indent
+    &quot;esbenp.prettier-vscode&quot;, // code formatter
+    &quot;ryu1kn.partial-diff&quot;, // text diff tool
+    &quot;syler.sass-indented&quot;, // support sass syntax
+    &quot;mike-co.import-sorter&quot;, // ts sort import
+	],
+
+	// Use &#x27;forwardPorts&#x27; to make a list of ports inside the container available locally.
+	&quot;forwardPorts&quot;: [3000],
+
+	// Use &#x27;postCreateCommand&#x27; to run commands after the container is created.
+	&quot;postCreateCommand&quot;: &quot;yarn install&quot;
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// &quot;remoteUser&quot;: &quot;node&quot;
+}</code></div></pre>
+<p>참고로 extension은 그저 내 취향일뿐이다. 원하는 대로 바꾸면 된다.</p>
+<p>파일이 다 저장됬으면 해당 프로젝트 디렉토리 ( <code>.devcontainer</code> 디렉토리의 부모 디렉토리 ) 에서 vscode를 열어보자. 그럼 오른쪽 밑에 뭔가 뜬다.</p>
+<p><img src="/assets/20201023-xxxxxx-vscode-remote-container-via-docker/003.png" alt="devcontainer 설정 후 vscode를 열면"/></p>
+<p>그럼 <code>Reopen in container</code> 를 눌러주자. <del>( 사실 이건 그냥 커맨드 팔렛트에서도 찾아서 할 수 있는 내용이다. )</del></p>
+<p>그리고 나면 아까도 볼 수 있었던 열심히 뭔가 쿵짝쿵짝하는 내용을 볼 수 있다..</p>
+<p><img src="/assets/20201023-xxxxxx-vscode-remote-container-via-docker/004.png" alt="devcontainer를 생성 중인 docker"/></p>
+<p>대충 뭐 다 끝나면 bash terminal을 열어 <del>( 이미 zsh가 적용되어 있다. )</del> yarn start를 쳐주고</p>
+<p><img src="/assets/20201023-xxxxxx-vscode-remote-container-via-docker/005.png" alt="대망의 시작"/></p>
+<p>호스트 쪽의 브라우저에서 <a href="http://localhost:3000/">http://localhost:3000/</a> 을 열면 짜잔! 하고 보인다. 혹시 의심이 간다면 소스에서 좀 고쳐보자. hmr이 동작하는 것이 보일 것이다.</p>
+<p>필요가 없어지면 커맨드 팔레트를 열어 <code>Remote: Close</code> 해주고 docker에서 container를 지우면 된다.</p>
+<h2>결말</h2>
+<p>이로서 개발환경 구성 시에 난 윈도우인데? 난 맥인데? 이런 물음은 필요가 없어졌다. vscode 만세다. 개발환경을 이렇게 docker를 통해 뚝딱 만들어버린다는 것은 상당한 메리트가 있을 것이다.</p></div></article></main></div></div><footer class="block text-center border-t-2 py-16"><p>© 2012~ trazy. All right reserved.</p></footer></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"slug":"20201023-xxxxxx-vscode-remote-container-via-docker","content":"\r\n## 이것이 무엇이오?\r\n\r\ndocker hub를 방황하던 도중 이상한걸 봤다. 뭐? docker로 환경을 만들고 그 안에서 개발을 해? 아니 대체 그게 무슨 소리요!\r\n\r\n그리고 쭉 찾아보고 나서 오, 이거 좋은데? 라고 생각하게 되어 기록을 남겨놓는다.\r\n\r\n## 예를 들어보자면 그놈의 node-gyp\r\n\r\n항상 node-gyp는 골치덩이였다. 뭐 쩔 수 있나. nodejs에서 native로 만들어진 걸 쓰려면 필요하니...\r\n\r\n그런데 저게 window 쪽에서는 nodejs 버전에 따라 visual studio 버전을 따진다느니 한다는 거다. 그래서 windows build tools 설치 시에 삽을 푸는 경우가 간혹 생긴다.\r\n\r\n가장 쉬운 해결 방법은 모두가 똑같은 환경을 쓰면 된다. 다 똑같이 os를 사용하고 똑같이 인스톨하면 될거 아닌가?\r\n\r\n이걸 vscode의 remote container가 해줄 수 있다.\r\n\r\n## 맛 좀 보자\r\n\r\n어떻게 하나?\r\n\r\n0. 당연히 docker는 먼저 깔려있어야한다.\r\n1. vscode `확장 ( Extensions )` 중에 `microsoft`가 만든 것들 중에 `Remote-Containers`가 있다. 그걸 설치한다.\r\n2. vscode에서 f1을 눌러 command palette를 열고 `Remote Containers: Try a Sample...` 을 선택한다. 그리고 원하는 언어로 선택한다. ( 나는 예시를 위해 node를 골랐다. )\r\n\r\n  ![이렇게 보인다.](/assets/20201023-xxxxxx-vscode-remote-container-via-docker/001.png)\r\n\r\n3. 그럼 vscode가 새로 열리더니 뭔가 혼자 쿵짝쿵짝한다.\r\n\r\n과정이 다 끝났다면 Dev container terminal을 보면 node가 실행 중임이 보인다. 뭘 했나 찾아보니 project root path에 있는 server.js가 실행되었고 내용은 /로 오면 hello world 텍스트를 반환하는 http 서버가 켜진거다. 포트는 3000이고.. 브라우저를 열어서 제대로 되는지 확인해보면 된다.\r\n\r\n뭐가 잘 안되면 재시작해보거나 하면 된다.\r\n\r\n![dev container의 안의 내용](/assets/20201023-xxxxxx-vscode-remote-container-via-docker/002.png)\r\n\r\n## 오호? 나도 하나 만들어보고 싶군!\r\n\r\n그럼 뭐 create-react-app으로 뭐 하나 만들고 그걸 devcontainer로 띄워보자.\r\n\r\n### 어떻게 이런 짓을 벌이고 있나?\r\n\r\n먼저 새로 띄워진 vscode를 보면 `.devcontainer` 디렉토리가 있다. 안의 내용을 보면 json 파일과 Dockerfile이 있다.\r\n\r\n#### 먼저 Dockerfile을 보자.\r\n\r\n```dockerfile\r\n# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile\r\nARG VARIANT=\"14\"\r\nFROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}\r\n\r\n# [Optional] Uncomment this section to install additional OS packages.\r\n# RUN apt-get update \u0026\u0026 export DEBIAN_FRONTEND=noninteractive \\\r\n#     \u0026\u0026 apt-get -y install --no-install-recommends \u003cyour-package-list-here\u003e\r\n\r\n# [Optional] Uncomment if you want to install an additional version of node using nvm\r\n# ARG EXTRA_NODE_VERSION=10\r\n# RUN su node -c \"source /usr/local/share/nvm/nvm.sh \u0026\u0026 nvm install ${EXTRA_NODE_VERSION}\"\r\n\r\n# [Optional] Uncomment if you want to install more global node modules\r\n# RUN sudo -u node npm install -g \u003cyour-package-list-here\u003e\r\n```\r\n\r\n대충 내가 원하는 nodejs 버전을 지정할 수 있고 [https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile](https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node/.devcontainer/base.Dockerfile) 에 있는 내용을 참고하면 될 것 같다는 것을 알 수 있다.\r\n\r\n실제로 base.Dockerfile을 보면 nodejs 배포 이미지를 사용하고 있다는 걸 볼 수 있다. 그건 ubuntu 기반 이미지이다. 그러고보면 apt-get 쓰고 있다.\r\n\r\n뭐 대충보니 이 파일을 주물럭대면 우리가 원하는 환경을 추가로 세팅할 수 있다는 것을 알 수 있는 것이다.\r\n\r\n#### 그 다음 json 파일을 보자.\r\n\r\n```json\r\n// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:\r\n// https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node\r\n{\r\n\t\"name\": \"Node.js\",\r\n\t\"build\": {\r\n\t\t\"dockerfile\": \"Dockerfile\",\r\n\t\t// Update 'VARIANT' to pick a Node version: 10, 12, 14\r\n\t\t\"args\": { \"VARIANT\": \"12\" }\r\n\t},\r\n\r\n\t// Set *default* container specific settings.json values on container create.\r\n\t\"settings\": {\r\n\t\t\"terminal.integrated.shell.linux\": \"/bin/bash\"\r\n\t},\r\n\r\n\t// Add the IDs of extensions you want installed when the container is created.\r\n\t\"extensions\": [\r\n\t\t\"dbaeumer.vscode-eslint\"\r\n\t],\r\n\r\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\r\n\t\"forwardPorts\": [3000],\r\n\r\n\t// Specifies a command that should be run after the container has been created.\r\n\t\"postCreateCommand\": \"yarn install\",\r\n\r\n\t// Comment out the next line to run as root instead.\r\n\t\"remoteUser\": \"node\"\r\n}\r\n```\r\n\r\n방금 봤던 Dockerfile을 사용하고 있으며 버전은 12를 쓴다는 것을 알 수 있다. extensions에는 우리가 주로 사용할 확장을 넣어주면 설치가 될 거 라는걸 알 수 있다. 오? 그렇다면 prettier라던가 등등등 원하는 것을 맘껏 세팅할 수 있을 것이다. forwardPorts에는 container에서 외부로 열려야할 포트 정보를 써주면 된다 라고 써져있으니 적당히 하면 될테고..\r\n\r\n대충 알겠으니 시작해보자.\r\n\r\n### 먼저 만들어졌건, 이제 새로 만들건 똑같이 하면 되겠네?\r\n\r\n일단 cra로 하나 만들어서 잘 뜨는지까지 확인해보자.\r\n\r\n```sh\r\n$ create-react-app devcontainer_craapp --template typescript\r\n$ cd devcontainer_craapp\r\n$ yarn start\r\n```\r\n\r\n뭐 당연히 잘 뜰 것이다.\r\n\r\n그럼 해당 디렉토리에 `.devcontainer` 디렉토리를 만들고 안에 파일을 만들어주자.\r\n\r\n```dockerfile\r\n# base.Dockerfile\r\nARG VARIANT=14\r\nFROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}\r\n\r\n# Install tslint, typescript. eslint is installed by javascript image\r\nARG USERNAME=node\r\nRUN apt-get update \u0026\u0026 export DEBIAN_FRONTEND=noninteractive \u0026\u0026 apt-get -y install --no-install-recommends build-essential autoconf automake gcc python\r\nRUN sudo -u ${USERNAME} npm install -g --unsafe-perm tslint typescript eslint node-sass yarn\r\nRUN sudo -u ${USERNAME} npm rebuild node-sass\r\nRUN sudo -u ${USERNAME} yarn global add typescript node-sass create-react-app\r\n```\r\n\r\n난 nodejs 14를 쓸란다! 라고 해서 이렇게 했고... yarn을 쓸거고 나머지 등등 필요한 dependency를 추가로 깔았다.\r\n\r\n```dockerfile\r\n# Dockerfile\r\nARG VARIANT=14\r\nFROM mcr.microsoft.com/vscode/devcontainers/typescript-node:${VARIANT}\r\n```\r\n\r\n이 파일은 뭐 할 게 없다. 중요한건 전부 base에 선언해놨으니..\r\n\r\n`devcontainer.json` 파일은 다음과 같다.\r\n\r\n```json\r\n{\r\n\t\"name\": \"my devcontainer cra app\",\r\n\t\"build\": {\r\n\t\t\"dockerfile\": \"Dockerfile\",\r\n\t\t// Update 'VARIANT' to pick a Node version: 10, 12, 14\r\n\t\t\"args\": { \"VARIANT\": \"14\" }\r\n\t},\r\n\r\n\t// Set *default* container specific settings.json values on container create.\r\n\t\"settings\": {\r\n\t\t\"terminal.integrated.shell.linux\": \"/bin/bash\"\r\n\t},\r\n\r\n\t// Add the IDs of extensions you want installed when the container is created.\r\n\t\"extensions\": [\r\n\t\t\"dbaeumer.vscode-eslint\",\r\n    \"ms-vscode.vscode-typescript-tslint-plugin\",\r\n    \"steoates.autoimport\", // tsx import helper\r\n    \"coenraads.bracket-pair-colorizer-2\", // highlight bracket\r\n    \"wmaurer.change-case\", // change text macro\r\n    \"mikestead.dotenv\", // support dotenv\r\n    \"editorconfig.editorconfig\", // support editorconfig\r\n    \"mhutchie.git-graph\", // show git log graphically\r\n    \"eamodio.gitlens\", // git command helper\r\n    \"oderwat.indent-rainbow\", // highlight indent\r\n    \"esbenp.prettier-vscode\", // code formatter\r\n    \"ryu1kn.partial-diff\", // text diff tool\r\n    \"syler.sass-indented\", // support sass syntax\r\n    \"mike-co.import-sorter\", // ts sort import\r\n\t],\r\n\r\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\r\n\t\"forwardPorts\": [3000],\r\n\r\n\t// Use 'postCreateCommand' to run commands after the container is created.\r\n\t\"postCreateCommand\": \"yarn install\"\r\n\r\n\t// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.\r\n\t// \"remoteUser\": \"node\"\r\n}\r\n```\r\n\r\n참고로 extension은 그저 내 취향일뿐이다. 원하는 대로 바꾸면 된다.\r\n\r\n파일이 다 저장됬으면 해당 프로젝트 디렉토리 ( `.devcontainer` 디렉토리의 부모 디렉토리 ) 에서 vscode를 열어보자. 그럼 오른쪽 밑에 뭔가 뜬다.\r\n\r\n![devcontainer 설정 후 vscode를 열면](/assets/20201023-xxxxxx-vscode-remote-container-via-docker/003.png)\r\n\r\n그럼 `Reopen in container` 를 눌러주자. ~~( 사실 이건 그냥 커맨드 팔렛트에서도 찾아서 할 수 있는 내용이다. )~~\r\n\r\n그리고 나면 아까도 볼 수 있었던 열심히 뭔가 쿵짝쿵짝하는 내용을 볼 수 있다..\r\n\r\n![devcontainer를 생성 중인 docker](/assets/20201023-xxxxxx-vscode-remote-container-via-docker/004.png)\r\n\r\n대충 뭐 다 끝나면 bash terminal을 열어 ~~( 이미 zsh가 적용되어 있다. )~~ yarn start를 쳐주고\r\n\r\n![대망의 시작](/assets/20201023-xxxxxx-vscode-remote-container-via-docker/005.png)\r\n\r\n호스트 쪽의 브라우저에서 http://localhost:3000/ 을 열면 짜잔! 하고 보인다. 혹시 의심이 간다면 소스에서 좀 고쳐보자. hmr이 동작하는 것이 보일 것이다.\r\n\r\n필요가 없어지면 커맨드 팔레트를 열어 `Remote: Close` 해주고 docker에서 container를 지우면 된다.\r\n\r\n## 결말\r\n\r\n이로서 개발환경 구성 시에 난 윈도우인데? 난 맥인데? 이런 물음은 필요가 없어졌다. vscode 만세다. 개발환경을 이렇게 docker를 통해 뚝딱 만들어버린다는 것은 상당한 메리트가 있을 것이다.\r\n","frontMatter":{"title":"docker로 코드짠다?!","datetime":"2020-10-23T00:00:00.000+09:00","description":"vscode와 docker의 하모니","tags":["docker","vscode"]},"associatedPosts":[],"relatedByTags":[]},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"20201023-xxxxxx-vscode-remote-container-via-docker"},"buildId":"jayHnim-UBzAX2XejepyT","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
